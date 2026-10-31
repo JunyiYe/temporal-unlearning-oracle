@@ -53,13 +53,15 @@ export PYTHONPATH=$PWD/src:$PYTHONPATH   # unlearning methods (src/fin_unlearnin
 # cloned to ptq_frozen/Time-Series-Library
 ```
 
-Create the log directory once (`mkdir -p outputs/slurm_logs`) if missing, then follow the phases in order (`pilot.sbatch` wraps `era_pilot.py`, `detector.sbatch` wraps `loss_gap_detector.py`, `train_reference.sbatch` wraps `train_reference.py`):
+Create the log directory once, then run the phases in order:
 
 ```bash
+mkdir -p outputs/slurm_logs figs
+
 sbatch scripts/train_reference.sbatch   # reference models
-sbatch scripts/pilot.sbatch             # oracles + unlearning methods
-sbatch scripts/detector.sbatch          # audit / detector arrays
-mkdir -p figs && python scripts/make_figures.py   # rebuild figures (figs/) from results/figure_series.json
+sbatch scripts/pilot.sbatch             # oracles + unlearning methods (era_pilot.py)
+sbatch scripts/detector.sbatch          # audit arrays (loss_gap_detector.py)
+python scripts/make_figures.py          # figures from results/figure_series.json
 ```
 
 ## What's inside
@@ -71,27 +73,23 @@ configs/               Tuned per-architecture configs (`<arch>_sp500_vol.yaml`)
 ptq_frozen/            Frozen snapshot of the fin_ts_ptq package the experiments run on
 data/                  S&P 500 daily returns panel used in the paper
 results/               Aggregated outputs the paper's figures are built from
-docs/                  Final hyperparameters and the reproduction check
 paper/                 Paper PDF
 ```
 
 ## Notes
 
-- `docs/repro_dryrun.md` documents a bit-level reproduction check: one cell
-  retrained from scratch matched the stored result to six decimals.
-- Raw checkpoints and per-cell predictions (tens of GB) are not included.
-  `results/` holds only the aggregated series.
-- All paths are relative to the repo root. Submit SLURM jobs from the repo
-  root (`sbatch scripts/<job>.sbatch ...`); logs go to `outputs/slurm_logs/`.
-  The `#SBATCH` partition and node flags and the container paths in
-  `ptq_frozen/scripts/apptainer_exec.sh` are Hawk-specific; edit them for
-  your cluster.
-- `outputs/` (git-ignored) is where checkpoints, oracle cells, and detector
-  arrays are written. `ptq_frozen/data` is a symlink to `data/`.
-- Hyperparameter tuning (`tune.sbatch`) reads `data/sp500_yf2008_returns.csv`
-  (70 MB, not shipped); the main experiments use the Kaggle panel in `data/`.
-- Yahoo Finance and Kaggle price data are provided for research
-  reproducibility only.
+- Raw checkpoints and per-cell predictions (tens of GB) are not included;
+  `results/` holds only the aggregated series. One cell retrained from
+  scratch matched the stored result to six decimals.
+- Paths are relative to the repo root: submit jobs from there. The `#SBATCH`
+  partition and node flags and the container paths in
+  `ptq_frozen/scripts/apptainer_exec.sh` are Hawk-specific; edit them for your
+  cluster. Outputs go to `outputs/` (git-ignored); `ptq_frozen/data` is a
+  symlink to `data/`.
+- `data/` holds the S&P 500 panel used for the main experiments. Hyperparameter
+  tuning (`tune.sbatch`) also reads `data/sp500_yf2008_returns.csv` (70 MB, not
+  shipped). Price data derive from Kaggle and Yahoo Finance and are provided
+  for research reproducibility only.
 
 ## Citation
 
