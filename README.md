@@ -71,7 +71,7 @@ configs/               Tuned per-architecture configs (`<arch>_sp500_vol.yaml`)
 ptq_frozen/            Frozen snapshot of the fin_ts_ptq package the experiments run on
 data/                  S&P 500 daily returns panel used in the paper
 results/               Aggregated outputs the paper's figures are built from
-docs/                  results_master.md (every reported number), hyperparameters, repro check
+docs/                  Final hyperparameters and the reproduction check
 paper/                 Paper PDF
 ```
 

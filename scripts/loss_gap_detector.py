@@ -9,10 +9,9 @@ size-matched retain control, and writes one NPZ per cell:
 
 Also writes a summary JSON with the paired reference-vs-oracle gap
 aggregated per day: naive i.i.d. t-stat vs Newey-West t-stat — the spread
-between the two is the autocorrelation-inflation number quoted in
-docs/verification_mde.md. Runs inside the cluster container:
+between the two is the autocorrelation-inflation number quoted in the
+paper. Runs inside the cluster container:
 
-  sbatch -J unl_detect scripts/pilot.sbatch  # NO — use own entry:
   sbatch -p gpu-short -J unl_detect scripts/detector.sbatch [args]
 """
 from __future__ import annotations

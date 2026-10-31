@@ -7,7 +7,7 @@ n=10 seeds.
 
 Delta = IC(oracle) - IC(reference), computed directly from the cell JSONs.
 NOTE: never read models[m]['vs_reference']['delta_ic_mean'] -- that field is
-stored with the opposite sign (see docs/results_master.md).
+stored with the opposite sign.
 
 Output: figs/fig_exposure_two_regimes.pdf (vector) + .png preview.
 """

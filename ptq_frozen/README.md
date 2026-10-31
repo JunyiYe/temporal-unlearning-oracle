@@ -9,7 +9,7 @@ upstream changes.
 - `configs/*_sp500_vol_opt.yaml` base per-architecture configs; the final configs in `../configs/` are derived from them
 - `scripts/apptainer_exec.sh` container wrapper used by every job
 - `scripts/run_tuning.py` hyperparameter search driver
-- `env/` pinned Python requirements; `docs/environment.md` runtime setup
+- `env/` pinned Python requirements
 - `data/` symlink to `../data`
 
 Clone [Time-Series-Library](https://github.com/thuml/Time-Series-Library) into

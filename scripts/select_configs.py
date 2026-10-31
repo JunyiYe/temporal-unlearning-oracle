@@ -72,8 +72,6 @@ def main() -> None:
         gate_lines.append("")
 
     gate_lines.append("GATE P0: " + ("PASS" if ok else "HOLD (incomplete cells)"))
-    rd = UNL / "docs/p0_gate.md"
-    rd.write_text("\n".join(gate_lines) + "\n", encoding="utf-8")
     print("\n".join(gate_lines))
 
 
