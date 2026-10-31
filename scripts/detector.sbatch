@@ -8,7 +8,7 @@
 #SBATCH -o outputs/slurm_logs/%x_%j.log
 
 # Phase-2 seed: per-window loss extraction over all completed pilot cells.
-# Usage: sbatch -J unl_detect scripts/detector.sbatch --config configs/transformer_sp500_vol_tuned.yaml
+# Usage: sbatch -J unl_detect scripts/detector.sbatch --config configs/transformer_sp500_vol.yaml
 set -euo pipefail
 # Submit from the repository root: `sbatch scripts/<job>.sbatch ...`
 REPO="${SLURM_SUBMIT_DIR:-$PWD}"

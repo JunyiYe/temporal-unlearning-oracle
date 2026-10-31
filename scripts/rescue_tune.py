@@ -1,6 +1,6 @@
 """Rescue tuning for the two under-fitting architectures.
 
-The v2 grid searched d_model x dropout only, with the learning rate fixed at
+The tuning grid searched d_model x dropout only, with the learning rate fixed at
 5e-4 for every architecture. That grid barely moved iTransformer or PatchTST
 (validation-loss spread 0.0012-0.0015 across six configs, versus 0.0065 for
 the transformer), and both land far below a HAR baseline at test time. Before
@@ -39,7 +39,7 @@ STRUCT = {
     "itransformer": (("n_layers",), [(2,), (3,), (4,)]),
     "transformer": (("n_layers",), [(2,), (3,)]),
     "segrnn": (("n_layers",), [(2,), (3,)]),
-    # tsmixer had no P0 tuning in v2, so it gets the wider structural axis
+    # tsmixer had no P0 tuning, so it gets the wider structural axis
     "tsmixer": (("d_model", "n_layers", "dropout"),
                 [(64, 2, 0.1), (64, 2, 0.3), (128, 2, 0.1), (64, 3, 0.1)]),
     "timemixer": (("d_model", "n_layers", "dropout"),
@@ -53,7 +53,7 @@ STRUCT = {
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
-    ap.add_argument("--config", required=True, help="the v2 tuned config for this arch")
+    ap.add_argument("--config", required=True, help="the tuned config for this arch")
     ap.add_argument("--seeds", default="1,2,3")
     ap.add_argument("--out", required=True)
     ap.add_argument("--lrs", default=None, help="comma list; default = the full LR axis")

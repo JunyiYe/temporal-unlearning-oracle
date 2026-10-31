@@ -13,8 +13,8 @@ sys.path.insert(0, str(_REPO / "ptq_frozen" / "src"))
 from fin_ts_ptq.models.factory import build_model
 from fin_ts_ptq.config import load_config
 
-CFG = str(_REPO / "configs") + "/{}_sp500_vol_v2.yaml"
-SWEEP = str(_REPO / "outputs" / "sweep") + "/{}_sp500_vol_v2_fold2024_seed4_model.pt"
+CFG = str(_REPO / "configs") + "/{}_sp500_vol.yaml"
+SWEEP = str(_REPO / "outputs" / "sweep") + "/{}_sp500_vol_fold2024_seed4_model.pt"
 task = {"context_length": 64, "horizon": 1}
 
 torch.manual_seed(0)

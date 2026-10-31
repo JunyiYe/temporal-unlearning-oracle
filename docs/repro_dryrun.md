@@ -1,4 +1,4 @@
-# v2 reproduction dry-run — verdict: REPRODUCED
+# Reproduction dry-run — verdict: REPRODUCED
 
 Date: 2026-07-20. Slurm job 47570 (gpu node, apptainer container),
 runtime 8m20s.
@@ -6,12 +6,12 @@ runtime 8m20s.
 ## What was run
 
 One full cell re-executed from the frozen environment
-(`v2/fin-ts-ptq-frozen`, PTQ repo pinned @be876a6, vendored
+(`ptq_frozen`, PTQ repo pinned @be876a6, vendored
 python-userbase + Time-Series-Library + yf2008 CSV), writing to a
-fresh out-dir (`v2/outputs/repro_check`) so nothing could be reused
+fresh out-dir (`outputs/repro_check`) so nothing could be reused
 from cache:
 
-- config: `transformer_sp500_vol_v2.yaml`, era 2020, strict (L1),
+- config: `transformer_sp500_vol.yaml`, era 2020, strict (L1),
   fold2024, seed 4, `--train-start-years 5`
 - retrained from scratch: reference, oracle, SCRUB
 
@@ -30,6 +30,6 @@ from cache:
 | scrub | retain_sample_mse | 0.701773 | 0.701773 |
 
 All 9 fields identical to 6 decimal places (tolerance was 5e-4;
-observed difference 0). The v2 pipeline is bit-reproducible from the
+observed difference 0). The pipeline is bit-reproducible from the
 frozen environment; any cell reproduces the same way via
-`scripts/v2_repro.sbatch` with the cell's arguments.
+`scripts/repro.sbatch` with the cell's arguments.

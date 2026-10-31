@@ -12,8 +12,8 @@ NW-HAC), val/forget/retain-sample MSE (the loss-gap forgetting signal),
 prediction-space agreement with the oracle, wall-clock cost.
 
 Run inside the cluster container from the fin-ts-ptq repo root, e.g.
-  sbatch -J unl_smoke scripts/era_pilot.sbatch \
-      --config configs/transformer_sp500_vol_tuned.yaml \
+  sbatch -J unl_smoke scripts/pilot.sbatch \
+      --config configs/transformer_sp500_vol.yaml \
       --folds 2024 --seeds 7 --eras 2020 --modes target,strict
 """
 from __future__ import annotations
@@ -135,9 +135,9 @@ def main() -> None:
                         continue
                     ref_ckpt = Path(args.sweep_dir) / f"{stem}_fold{fold}_seed{seed}_model.pt"
                     if args.train_start_years > 0 and args.train_reference:
-                        # v1-style fixed-width runs against an EXPANDING sweep:
+                        # Fixed-width runs against an EXPANDING sweep:
                         # train a per-cell reference. (When the sweep itself is
-                        # fixed-width — v2 — omit --train-reference and the
+                        # fixed-width, omit --train-reference and the
                         # sweep checkpoints are used directly.)
                         ref_ckpt = ckpt_dir / f"{cell}_reference.pt"
                     if not ref_ckpt.exists() and not args.train_reference:

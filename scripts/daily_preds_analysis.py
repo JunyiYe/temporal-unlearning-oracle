@@ -77,7 +77,7 @@ print(f"{'arch':13s}{'fold':>6s}{'corr(diff, trail vol20)':>26s}"
 for a in ARCHS:
     for fold in FOLDS:
         z = np.load(ROOT / "outputs" / "daily_preds" /
-                    f"{a}_sp500_vol_v2_era2020_strict_fold{fold}_preds.npz",
+                    f"{a}_sp500_vol_era2020_strict_fold{fold}_preds.npz",
                     allow_pickle=False)
         dates = z["date"]
         assets = z["asset"]

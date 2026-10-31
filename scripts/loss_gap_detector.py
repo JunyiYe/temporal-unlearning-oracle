@@ -12,7 +12,7 @@ aggregated per day: naive i.i.d. t-stat vs Newey-West t-stat — the spread
 between the two is the autocorrelation-inflation number quoted in
 docs/verification_mde.md. Runs inside the cluster container:
 
-  sbatch -J unl_detect scripts/era_pilot.sbatch  # NO — use own entry:
+  sbatch -J unl_detect scripts/pilot.sbatch  # NO — use own entry:
   sbatch -p gpu-short -J unl_detect scripts/detector.sbatch [args]
 """
 from __future__ import annotations

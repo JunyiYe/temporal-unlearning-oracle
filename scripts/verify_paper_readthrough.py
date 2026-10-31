@@ -1,4 +1,4 @@
-"""Verify the specific numbers questioned by the full read-through of the v2 paper.
+"""Verify the specific numbers questioned by the full read-through of the paper.
 
 Read-only. Prints each claim with the measured value.
 NOTE: models[m]['vs_reference']['delta_ic_mean'] is stored with the OPPOSITE
@@ -13,7 +13,7 @@ from collections import defaultdict
 
 PILOT = str(_REPO / "outputs" / "pilot")
 FILES = sorted(glob.glob(os.path.join(PILOT, "*_unlearn.json")))
-PAT = re.compile(r"^(?P<arch>[a-z]+)_sp500_vol_v2_era(?P<era>\d{4})_"
+PAT = re.compile(r"^(?P<arch>[a-z]+)_sp500_vol_era(?P<era>\d{4})_"
                  r"(?P<mode>strict|target|l2halo)_fold(?P<fold>\d{4})_seed(?P<seed>\d+)_unlearn\.json$")
 
 rows = []

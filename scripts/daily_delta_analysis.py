@@ -64,7 +64,7 @@ for fold in FOLDS:
     per = defaultdict(list)
     for a in ARCHS:
         d = json.load(open(ROOT / "outputs" / "daily_delta" /
-                           f"{a}_sp500_vol_v2_era2020_strict_fold{fold}_daily.json"))
+                           f"{a}_sp500_vol_era2020_strict_fold{fold}_daily.json"))
         for i, dt in enumerate(d["dates"]):
             per[dt].append(mean([d["seeds"][s]["ora"][i] - d["seeds"][s]["ref"][i]
                                  for s in d["seeds"]]))

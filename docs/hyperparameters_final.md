@@ -1,4 +1,4 @@
-# Final hyperparameters (v2), and how they were selected
+# Final hyperparameters, and how they were selected
 
 Two rounds of tuning, both on the SAME era-clean split (yf2008 panel,
 train 2010-2014, validate 2015, seeds 1,2,3; no test year is ever touched).
@@ -28,9 +28,9 @@ than seed noise.
 | segrnn | 0.5208±0.0011 | 0.5208±0.0011 | 0.0000 | 0.0011 | KEEP |
 | patchtst | 0.6006±0.0002 | 0.6001±0.0008 | 0.0005 | 0.0008 | KEEP |
 | itransformer | 0.6017±0.0003 | 0.6016±0.0003 | 0.0001 | 0.0003 | KEEP |
-| tsmixer | (not tuned in v2) | 0.5085±0.0023 | -- | -- | ADOPT |
-| timemixer | (not tuned in v2) | 0.5669±0.0009 | -- | -- | ADOPT |
-| dlinear | (not tuned in v2) | 0.6043±0.0004 | -- | -- | ADOPT |
+| tsmixer | (not tuned) | 0.5085±0.0023 | -- | -- | ADOPT |
+| timemixer | (not tuned) | 0.5669±0.0009 | -- | -- | ADOPT |
+| dlinear | (not tuned) | 0.6043±0.0004 | -- | -- | ADOPT |
 
 **No existing cell was invalidated**: all four architectures already in the
 paper keep their hyperparameters, so the 473 cells on disk stay valid.
@@ -53,5 +53,5 @@ max 300 epochs, patience 20 on validation MSE, best-val checkpoint.
 HAR baseline on the same test years: 0.392 (calm 2024), 0.502 (stress 2022);
 naive persistence 0.293 / 0.400.
 
-Raw sweep records: `v2/outputs/rescue_tune/{arch}_lr{lr}.jsonl`
-(one line per config x seed). Config fingerprints: `v2/outputs/config_manifest.json`.
+Raw sweep records: `outputs/rescue_tune/{arch}_lr{lr}.jsonl`
+(one line per config x seed). Config fingerprints: `results/config_manifest.json`.

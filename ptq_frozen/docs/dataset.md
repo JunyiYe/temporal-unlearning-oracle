@@ -38,7 +38,7 @@ r_{i,t} = alpha_i + beta_i * m_t + 0.15 * mom_t + eps_{i,t}
      see `docs/configs.md`.
 
 3. `data/sp500_yf2008_returns.csv`
-   - Extended panel for the v2 experimental design (test years 2018--2025,
+   - Extended panel for the fixed-window experimental design (test years 2018--2025,
      fixed 7-year training windows).
    - Same 501-ticker universe as the Kaggle panel
      (`configs/sp500_current_tickers.txt`), simple daily returns from

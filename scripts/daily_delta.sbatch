@@ -12,7 +12,7 @@
 # resolve; the fin-unlearning tree is bind-mounted into the container.
 # Usage:
 #   sbatch -J dd_tr_L1 scripts/daily_delta.sbatch \
-#     --config configs/transformer_sp500_vol_v2.yaml --mode strict
+#     --config configs/transformer_sp500_vol.yaml --mode strict
 set -euo pipefail
 # Submit from the repository root: `sbatch scripts/<job>.sbatch ...`
 REPO="${SLURM_SUBMIT_DIR:-$PWD}"

@@ -4,7 +4,7 @@ Date 2026-07-20. Jobs 47571-47580 (10 jobs, all COMPLETED, 0 failures;
 iTransformer ~16 min/job, SegRNN ~33-37 min/job). Protocol identical
 to P3: era 2020, strict (L1), calm fold (train 2018-22, test 2024),
 seeds 4-13, methods finetune/neggrad/neggrad_hinge/scrub/ts_unlearn,
-references from v2 sweep, oracles reused from P2 checkpoints
+references from the reference sweep, oracles reused from P2 checkpoints
 (`--no-skip-existing` rewrote the P2 JSONs with methods added;
 originals in outputs/pilot/backup_pre_m8/). Aggregation:
 scripts/m8_aggregate.py, cross-validated against published T3 rows

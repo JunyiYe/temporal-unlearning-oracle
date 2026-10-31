@@ -16,12 +16,12 @@ import argparse, json, shutil
 from pathlib import Path
 
 ROOT = (_REPO)
-OUT = ROOT / 'v2/outputs'
-MANIFEST = OUT / 'config_manifest.json'
+OUT = ROOT / 'outputs'
+MANIFEST = ROOT / 'results/config_manifest.json'
 
 
 def targets(arch: str) -> list[Path]:
-    stem = f'{arch}_sp500_vol_v2'
+    stem = f'{arch}_sp500_vol'
     hits = list((OUT / 'pilot').glob(f'{stem}_*_unlearn.json'))
     hits += list((OUT / 'pilot' / 'ckpt').glob(f'{stem}_*.pt'))
     hits += list((OUT / 'sweep').glob(f'{stem}_fold*_model.pt'))

@@ -53,12 +53,12 @@ export PYTHONPATH=$PWD/src:$PYTHONPATH   # unlearning methods (src/fin_unlearnin
 # cloned to ptq_frozen/Time-Series-Library
 ```
 
-Create the log directory once (`mkdir -p outputs/slurm_logs`) if missing, then follow the phases in order (each `.sbatch` wraps the `.py` of the same name):
+Create the log directory once (`mkdir -p outputs/slurm_logs`) if missing, then follow the phases in order (`pilot.sbatch` wraps `era_pilot.py`, `detector.sbatch` wraps `loss_gap_detector.py`, `train_reference.sbatch` wraps `train_reference.py`):
 
 ```bash
-sbatch scripts/v2_ref.sbatch       # reference models
-sbatch scripts/v2_pilot.sbatch     # oracles + unlearning methods
-sbatch scripts/v2_detector.sbatch  # audit / detector arrays
+sbatch scripts/train_reference.sbatch   # reference models
+sbatch scripts/pilot.sbatch             # oracles + unlearning methods
+sbatch scripts/detector.sbatch          # audit / detector arrays
 mkdir -p figs && python scripts/make_figures.py   # rebuild figures (figs/) from results/figure_series.json
 ```
 
@@ -67,7 +67,7 @@ mkdir -p figs && python scripts/make_figures.py   # rebuild figures (figs/) from
 ```text
 src/fin_unlearning/    Unlearning methods (SCRUB, hinge, ...) and era-deletion logic
 scripts/               Experiment drivers, SLURM jobs, aggregation, and figure scripts
-configs/               Tuned per-architecture configs (*_v2.yaml)
+configs/               Tuned per-architecture configs (`<arch>_sp500_vol.yaml`)
 ptq_frozen/            Frozen snapshot of the fin_ts_ptq package the experiments run on
 data/                  S&P 500 daily returns panel used in the paper
 results/               Aggregated outputs the paper's figures are built from
@@ -88,7 +88,7 @@ paper/                 Paper PDF
   your cluster.
 - `outputs/` (git-ignored) is where checkpoints, oracle cells, and detector
   arrays are written. `ptq_frozen/data` is a symlink to `data/`.
-- Hyperparameter tuning (`v2_tune.sbatch`) reads `data/sp500_yf2008_returns.csv`
+- Hyperparameter tuning (`tune.sbatch`) reads `data/sp500_yf2008_returns.csv`
   (70 MB, not shipped); the main experiments use the Kaggle panel in `data/`.
 - Yahoo Finance and Kaggle price data are provided for research
   reproducibility only.

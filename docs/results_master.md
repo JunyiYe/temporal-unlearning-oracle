@@ -1,4 +1,4 @@
-# v2 results master (exhibit-ready numbers)
+# Results master (exhibit-ready numbers)
 
 ## T1 master rows
 | arch | G 2020 | G 2019 | Delta 2022-stress | best method (k, dIC) | d' 2020 (AUC) | d' 2019 (AUC) | ref IC f2024 |
@@ -42,12 +42,12 @@
 - segrnn: naive 8.5 / NW 4.5 / win-frac 0.536 (n=50)
 - transformer: naive 16.1 / NW 7.9 / win-frac 0.577 (n=110)
 
-## DEVIATIONS from v1 recorded before paper writing
-1. v1's SegRNN calm-strict "coin flip" (AUC 0.55) DID NOT replicate:
-   v2 calm d' = 3.1-7.7 — every era-level deletion here is population-
+## DEVIATIONS from the earlier design recorded before paper writing
+1. The earlier design's SegRNN calm-strict "coin flip" (AUC 0.55) DID NOT replicate:
+   final-design calm d' = 3.1-7.7 — every era-level deletion here is population-
    auditable (weakest AUC 0.99). RQ3 narrative becomes "d' spans 3.6x
    between calm and crisis, all detectable at era level"; the
-   chance-level corner was a v1-design (expanding/other-HP) phenomenon
+   chance-level corner was an earlier-design (expanding/other-HP) phenomenon
    — goes to the extended version as a design-sensitivity note. The
    sample-level hopelessness (win-frac 0.52-0.58) and iid inflation
    (~2x) DO replicate.
@@ -189,7 +189,7 @@ non-redundancy examples + explicit collinearity disclosure.
 
 Trigger: user observed iTransformer/PatchTST look unfit for the task. They sit
 at val 0.60 vs transformer 0.50 and are BELOW the HAR baseline at test time
-(HAR daily IC 0.502 in 2022, 0.392 in 2024, from ptq outputs/v2/har_baseline.json;
+(HAR daily IC 0.502 in 2022, 0.392 in 2024, from the PTQ outputs har_baseline.json;
 persistence 0.400/0.293).
 
 Rescue tuning (scripts/rescue_tune.py, same era-clean split, lr x structure):
@@ -258,7 +258,7 @@ the transformer while L1 is null -- disclose if the L0 rows are reported.
 
 ## TSMixer: predictive test of the fit-quality hypothesis (2026-07-21)
 
-TSMixer was added because the four v2 architectures split 2-2 into "beats HAR"
+TSMixer was added because the four architectures split 2-2 into "beats HAR"
 and "far below HAR", leaving the exposure-sign claim resting on two weak
 models. It was tuned on the same era-clean split (lr 6e-3, d64, 2 layers,
 dropout 0.1; val 0.5085) and its references trained on both folds
@@ -452,7 +452,7 @@ Resubmitted with --modes target.
 
 ## RQ3 CORRECTED by full audit coverage (2026-07-22)
 
-The v2 paper claimed "every era-level deletion in the study is detectable
+An earlier draft claimed "every era-level deletion in the study is detectable
 (d' 3.1-11.3)". That rested on 10 cells: 2 eras on 1 fold. Computing d' over
 ALL 100 cells (5 archs x 5 eras x 4 folds, from the existing cell JSONs --
 no new runs needed) gives:
@@ -466,7 +466,7 @@ Hardest cells: segrnn era2017 fold2022 (-0.4), segrnn era2018 fold2023 (-0.4),
 segrnn era2016 fold2022 (-0.2), tsmixer era2017 fold2022 (+0.3),
 patchtst era2022 fold2025 (+0.6).
 
-This RESTORES the v1 "coin-flip corner" that v2 had reported as
+This RESTORES the earlier design's "coin-flip corner" that an earlier draft had reported as
 non-replicating -- it did replicate; we had only measured the two easiest
 eras. Claim rewritten in abstract, intro, RQ3, practice and conclusion:
 auditability is a property of what the model absorbed, and a legitimate
@@ -548,9 +548,9 @@ from the small sample; those ranges are now 0.1-62.9 and 0.0-32.4, so the
 paper reports the ratio instead, which is what the claim is about.
 
 BUG CAUGHT: the first detector submission omitted --pilot-dir, so it defaulted
-to the v1 outputs/pilot. Jobs exited 0 having processed nothing (v1 config
-stems differ, so the glob matched no files -- had the stems matched, v1 cells
-would have been silently written into the v2 detector directory). Exit code 0
+to the earlier pilot directory. Jobs exited 0 having processed nothing (the
+config stems differ, so the glob matched no files -- had the stems matched,
+old cells would have been silently written into the detector directory). Exit code 0
 is not evidence of work done; check artifact counts.
 
 ## Deletion volume is not near-identical, and does not confound (2026-07-22)
@@ -647,7 +647,7 @@ Corrected (was wrong):
    era-2020 deletion at fold2023 is +0.0267 (across-seed t = 5.2).
    -> "the two below that baseline hold no consistent sign".
 2. **Compute total off by ~10x.** "under 60 A100-hours" was written when
-   the campaign was 454 fits. sacct over the 1,316 v2 campaign jobs
+   the campaign was 454 fits. sacct over the 1,316 campaign jobs
    (1 GPU each, gpu-short + gpu-day-long) totals **600 GPU-hours**.
    Sanity check the old number failed: 3,200 retrains x 3 min minimum
    = 155 h. -> "about 600 A100-hours".
@@ -972,8 +972,8 @@ architecture's 20 cells:
   transformer +0.960, tsmixer +0.934, segrnn +0.933,
   itransformer +0.910, patchtst +0.761  (pooled +0.724)
 Paper states the range 0.76-0.96. The old 5-point transformer-ladder
-r = 0.97/0.91 is superseded by this stronger version in v3 (kept in
-v2).
+r = 0.97/0.91 is superseded by this stronger version in the final draft (kept in
+the earlier draft).
 
 Also verified: the era-position sign pattern replicates in the
 intermediate folds (2023 fold: deleting 2020 positive for all three

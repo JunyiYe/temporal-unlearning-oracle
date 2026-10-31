@@ -47,12 +47,12 @@ def main() -> None:
     ap.add_argument("--era", default="2020")
     ap.add_argument("--mode", required=True, choices=["target", "strict"])
     ap.add_argument("--seeds", default="4,5,6,7,8,9,10,11,12,13")
-    ap.add_argument("--sweep-dir", default=str(UNLEARN_ROOT / "v2" / "outputs" / "sweep"),
+    ap.add_argument("--sweep-dir", default=str(UNLEARN_ROOT / "outputs" / "sweep"),
                     help="reference checkpoints, fin-ts-ptq relative")
     ap.add_argument("--ckpt-dir",
-                    default=str(UNLEARN_ROOT / "v2" / "outputs" / "pilot" / "ckpt"))
+                    default=str(UNLEARN_ROOT / "outputs" / "pilot" / "ckpt"))
     ap.add_argument("--out-dir",
-                    default=str(UNLEARN_ROOT / "v2" / "outputs" / "daily_delta"))
+                    default=str(UNLEARN_ROOT / "outputs" / "daily_delta"))
     ap.add_argument("--batch-size", type=int, default=4096)
     args = ap.parse_args()
 

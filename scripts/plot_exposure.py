@@ -42,7 +42,7 @@ STEM = {"Transformer": "transformer", "TSMixer": "tsmixer", "SegRNN": "segrnn",
 def delta(arch, era, fold):
     d = []
     for s in range(4, 14):
-        f = PILOT / f"{STEM[arch]}_sp500_vol_v2_era{era}_strict_fold{fold}_seed{s}_unlearn.json"
+        f = PILOT / f"{STEM[arch]}_sp500_vol_era{era}_strict_fold{fold}_seed{s}_unlearn.json"
         m = json.load(open(f))["models"]
         d.append(m["oracle"]["test_daily_ic_mean"] - m["reference"]["test_daily_ic_mean"])
     return statistics.mean(d), statistics.stdev(d)

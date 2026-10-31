@@ -1,4 +1,4 @@
-"""Re-measure the RQ2 (methods) and RQ3 (audit) numbers quoted in the v2 paper.
+"""Re-measure the RQ2 (methods) and RQ3 (audit) numbers quoted in the paper.
 
 Read-only. Population d' is recomputed from the per-cell forget-set MSE of the
 10 reference and 10 oracle models, which is the statistic the paper describes.
@@ -9,7 +9,7 @@ import json, glob, os, math, re
 from collections import defaultdict
 
 ROOT = str(_REPO / "outputs")
-PAT = re.compile(r"^(?P<arch>[a-z]+)_sp500_vol_v2_era(?P<era>\d{4})_"
+PAT = re.compile(r"^(?P<arch>[a-z]+)_sp500_vol_era(?P<era>\d{4})_"
                  r"(?P<mode>strict|target|l2halo)_fold(?P<fold>\d{4})_seed(?P<seed>\d+)_unlearn\.json$")
 ARCHS = ["transformer", "tsmixer", "segrnn", "itransformer", "patchtst"]
 FOLDS = ["2022", "2023", "2024", "2025"]
@@ -92,7 +92,7 @@ for f in sorted(glob.glob(os.path.join(ROOT, "detector", "*_daygap.json"))):
     if "window_frac_ref_better" not in g:
         continue
     stem = os.path.basename(f)
-    m = re.match(r"^([a-z]+)_sp500_vol_v2_era(\d{4})_(\w+?)_fold(\d{4})_seed(\d+)_daygap\.json$", stem)
+    m = re.match(r"^([a-z]+)_sp500_vol_era(\d{4})_(\w+?)_fold(\d{4})_seed(\d+)_daygap\.json$", stem)
     if not m:
         continue
     arch, era, mode, fold = m.group(1), m.group(2), m.group(3), m.group(4)

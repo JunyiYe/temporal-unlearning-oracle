@@ -1,4 +1,4 @@
-"""Fingerprint the model/train sections of every v2 config.
+"""Fingerprint the model/train sections of every config.
 
 Cells are only comparable if they were produced by the same hyperparameters.
 The cell JSONs record the config *path*, not its contents, so a config edit
@@ -17,7 +17,7 @@ import yaml
 
 ROOT = (_REPO)
 CONFIGS = ROOT / 'configs'
-MANIFEST = ROOT / 'outputs/config_manifest.json'
+MANIFEST = ROOT / 'results/config_manifest.json'
 
 
 def fingerprint(path: Path) -> str:
@@ -28,8 +28,8 @@ def fingerprint(path: Path) -> str:
 
 
 def current() -> dict[str, str]:
-    return {p.stem.replace('_sp500_vol_v2', ''): fingerprint(p)
-            for p in sorted(CONFIGS.glob('*_sp500_vol_v2.yaml'))}
+    return {p.stem.replace('_sp500_vol', ''): fingerprint(p)
+            for p in sorted(CONFIGS.glob('*_sp500_vol.yaml'))}
 
 
 def main() -> None:

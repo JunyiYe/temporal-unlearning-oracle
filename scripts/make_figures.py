@@ -1,4 +1,4 @@
-"""Publication figures for the v2 paper, built from outputs/figure_series.json.
+"""Publication figures for the paper, built from outputs/figure_series.json.
 
 Every series in that file was exported directly from the 3,200-cell grid by
 the export block in the same commit; nothing here is typed by hand.
