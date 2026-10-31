@@ -9,13 +9,15 @@ fingerprints; purge_stale_cells.py diffs against it.
     python scripts/config_fingerprint.py --check    # exit 1 if any drifted
 """
 from __future__ import annotations
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 import argparse, hashlib, json, sys
 from pathlib import Path
 import yaml
 
-ROOT = Path('/nfs/storage1/home/ye/fin-unlearning')
-CONFIGS = ROOT / 'v2/configs'
-MANIFEST = ROOT / 'v2/outputs/config_manifest.json'
+ROOT = (_REPO)
+CONFIGS = ROOT / 'configs'
+MANIFEST = ROOT / 'outputs/config_manifest.json'
 
 
 def fingerprint(path: Path) -> str:

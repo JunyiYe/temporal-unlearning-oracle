@@ -8,10 +8,12 @@ quintiles in every fold under both stress proxies, and the oracle beats
 the reference on 73-99% of individual days. What varies with the regime
 is the level of the daily gain, not its day pattern.
 
-Inputs:  v2/outputs/daily_delta/*_strict_*.json  (from daily_delta.py)
+Inputs:  outputs/daily_delta/*_strict_*.json  (from daily_delta.py)
 Outputs: prints the quintile table; writes fig_daily.pdf/png into both
          paper trees' figs/ directories.
 """
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 import csv
 import json
 import math
@@ -29,8 +31,8 @@ mpl.rcParams.update({
     "axes.spines.top": False, "axes.spines.right": False,
 })
 
-ROOT = Path("/nfs/storage1/home/ye/fin-unlearning/v2")
-PANEL = "/nfs/storage1/home/ye/fin-ts-ptq/data/sp500_kaggle_returns.csv"
+ROOT = (_REPO)
+PANEL = str(_REPO / "data" / "sp500_kaggle_returns.csv")
 ARCHS = ["transformer", "tsmixer", "segrnn"]
 FOLDS = ["2022", "2025", "2023", "2024"]
 VOL = {"2022": 24, "2025": 18, "2023": 14, "2024": 12}

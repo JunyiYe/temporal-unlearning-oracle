@@ -6,7 +6,7 @@ This project studies whether standard PTQ methods preserve not only forecasting 
 
 The main setup is panel time-series forecasting with cross-sectional evaluation: models predict next-day returns from each asset's history, while IC, rank IC, long-short backtests, and regime splits assess decision quality and tail robustness.
 
-For runtime setup on Hawk, see [AGENT_NOTES.md](/nfs/storage1/home/ye/fin-ts-ptq/AGENT_NOTES.md) and [docs/environment.md](/nfs/storage1/home/ye/fin-ts-ptq/docs/environment.md).
+For runtime setup on Hawk, see [docs/environment.md](docs/environment.md).
 
 ## What’s inside
 
@@ -18,11 +18,11 @@ For runtime setup on Hawk, see [AGENT_NOTES.md](/nfs/storage1/home/ye/fin-ts-ptq
 
 ## Dataset
 
-See [docs/dataset.md](/nfs/storage1/home/ye/fin-ts-ptq/docs/dataset.md) for a short description of the datasets used in this project.
+See [docs/dataset.md](docs/dataset.md) for a short description of the datasets used in this project.
 
 ## Execution Environment
 
-This project runs on the Hawk cluster. The current model set (TSLib classic architectures) runs fine directly on the host `/usr/local/anaconda3` Python — see `scripts/run_sp500.sh`. Apptainer containers are also supported and become necessary if a future model needs a newer torch/transformers than anaconda's 1.13.1. See [docs/environment.md](/nfs/storage1/home/ye/fin-ts-ptq/docs/environment.md) for both paths.
+This project runs on the Hawk cluster. The current model set (TSLib classic architectures) runs fine directly on the host `/usr/local/anaconda3` Python — see `scripts/run_sp500.sh`. Apptainer containers are also supported and become necessary if a future model needs a newer torch/transformers than anaconda's 1.13.1. See [docs/environment.md](docs/environment.md) for both paths.
 
 ## Repository Layout
 
@@ -53,7 +53,7 @@ sbatch -J patchtst_sp500_weekly scripts/run_sp500.sh patchtst weekly
 sbatch -J patchtst_sp500_vol scripts/run_sp500.sh patchtst vol
 ```
 
-For models that need a newer torch/transformers than anaconda provides, use the Apptainer path instead — see [docs/experiments.md](/nfs/storage1/home/ye/fin-ts-ptq/docs/experiments.md) for the full container setup workflow:
+For models that need a newer torch/transformers than anaconda provides, use the Apptainer path instead — see [docs/experiments.md](docs/experiments.md) for the full container setup workflow:
 
 ```bash
 bash scripts/srun_apptainer.sh bash -lc '

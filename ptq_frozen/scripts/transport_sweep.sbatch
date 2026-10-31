@@ -11,7 +11,7 @@
 # configs (no re-tuning), folds 2022 (bear) and 2024 (calm), 5 seeds.
 # Array index -> (model, fold).
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 
 MODELS=(dlinear itransformer patchtst segrnn timemixer transformer tsmixer)
 FOLDS=(2022 2024)

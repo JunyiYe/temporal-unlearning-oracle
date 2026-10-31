@@ -17,6 +17,8 @@ Run inside the cluster container from the fin-ts-ptq repo root, e.g.
       --folds 2024 --seeds 7 --eras 2020 --modes target,strict
 """
 from __future__ import annotations
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 
 import argparse
 import copy
@@ -25,7 +27,7 @@ import sys
 import time
 from pathlib import Path
 
-sys.path.insert(0, "/nfs/storage1/home/ye/fin-unlearning/src")  # container-safe: PYTHONPATH may not survive login-shell init
+sys.path.insert(0, str(_REPO / "src"))  # container-safe: PYTHONPATH may not survive login-shell init
 
 import numpy as np
 import torch
@@ -42,7 +44,7 @@ from fin_ts_ptq.utils.seed import set_seed
 from fin_unlearning.era import build_era_datasets
 from fin_unlearning.methods import finetune_retain, neggrad_plus, relabel_noise, scrub, ts_unlearn
 
-UNLEARN_ROOT = Path("/nfs/storage1/home/ye/fin-unlearning")
+UNLEARN_ROOT = (_REPO)
 
 
 

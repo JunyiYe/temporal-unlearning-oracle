@@ -7,6 +7,8 @@ test-IC health metric for the P1 gate.
   python scripts/v2_ref.py --config <v2 yaml> --fold 2024 --seeds 4,5,6
 """
 from __future__ import annotations
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 
 import argparse
 import copy
@@ -15,7 +17,7 @@ import sys
 import time
 from pathlib import Path
 
-sys.path.insert(0, "/nfs/storage1/home/ye/fin-unlearning/src")
+sys.path.insert(0, str(_REPO / "src"))
 
 import numpy as np
 import pandas as pd
@@ -30,7 +32,7 @@ from fin_ts_ptq.training.loop import TrainConfig, predict, train_model
 from fin_ts_ptq.utils.device import resolve_device
 from fin_ts_ptq.utils.seed import set_seed
 
-UNL = Path("/nfs/storage1/home/ye/fin-unlearning")
+UNL = (_REPO)
 TRAIN_YEARS = 5
 
 
@@ -45,7 +47,7 @@ def main() -> None:
     ap.add_argument("--config", required=True)
     ap.add_argument("--fold", type=int, required=True)
     ap.add_argument("--seeds", required=True)
-    ap.add_argument("--out-dir", default=str(UNL / "v2/outputs/sweep"))
+    ap.add_argument("--out-dir", default=str(UNL / "outputs/sweep"))
     args = ap.parse_args()
 
     base = load_config(args.config)

@@ -7,10 +7,12 @@ n=10 seeds.
 
 Delta = IC(oracle) - IC(reference), computed directly from the cell JSONs.
 NOTE: never read models[m]['vs_reference']['delta_ic_mean'] -- that field is
-stored with the opposite sign (see v2/docs/results_master.md).
+stored with the opposite sign (see docs/results_master.md).
 
-Output: v2/paper/figs/fig_exposure_two_regimes.pdf (vector) + .png preview.
+Output: figs/fig_exposure_two_regimes.pdf (vector) + .png preview.
 """
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 import json
 import pathlib
 import statistics
@@ -30,7 +32,7 @@ C2020 = "#2a78d6"  # categorical slot 1
 C2019 = "#eb6834"  # categorical slot 2
 LABEL = {2020: "delete 2020 (crisis era)", 2019: "delete 2019 (calm era)"}
 
-PILOT = pathlib.Path("/nfs/storage1/home/ye/fin-unlearning/v2/outputs/pilot")
+PILOT = (_REPO / "outputs" / "pilot")
 # ordered by test IC: the three above the HAR baseline, then the two below
 ARCHS = ["Transformer", "TSMixer", "SegRNN", "iTransformer", "PatchTST"]
 STEM = {"Transformer": "transformer", "TSMixer": "tsmixer", "SegRNN": "segrnn",
@@ -99,7 +101,7 @@ fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 1.015),
 
 fig.tight_layout(pad=0.3, rect=(0, 0, 1, 0.945))
 
-out = pathlib.Path("/nfs/storage1/home/ye/fin-unlearning/v2/paper/figs")
+out = (_REPO / "figs")
 out.mkdir(parents=True, exist_ok=True)
 fig.savefig(out / "fig_exposure_two_regimes.pdf")
 fig.savefig(out / "fig_exposure_two_regimes.png", dpi=300)

@@ -11,7 +11,7 @@
 # (abs-max baseline + p99 + p999), mirroring the COVID-2020 analysis.
 # Submit with --dependency=afterok:<stress2018_sweep array job id>.
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 
 MODELS=(dlinear_sp500_vol_opt itransformer_sp500_vol_tuned patchtst_sp500_vol_tuned \
         segrnn_sp500_vol_tuned timemixer_sp500_vol_tuned transformer_sp500_vol_tuned \

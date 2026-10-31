@@ -11,17 +11,19 @@ it concentrates on the test year's stressed days.
 Run inside the container via sbatch (see daily_delta.sbatch). One
 invocation covers one config (architecture) and one mode across folds
 and seeds. Output: one JSON per (config, fold, mode) under
-v2/outputs/daily_delta/.
+outputs/daily_delta/.
 """
 from __future__ import annotations
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 
 import argparse
 import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, "/nfs/storage1/home/ye/fin-unlearning/src")
-sys.path.insert(0, "/nfs/storage1/home/ye/fin-unlearning/scripts")
+sys.path.insert(0, str(_REPO / "src"))
+sys.path.insert(0, str(_REPO / "scripts"))
 
 import torch
 from torch.utils.data import DataLoader
@@ -35,7 +37,7 @@ from fin_ts_ptq.utils.device import resolve_device  # noqa: E402
 
 from fin_unlearning.era import build_era_datasets  # noqa: E402
 
-UNLEARN_ROOT = Path("/nfs/storage1/home/ye/fin-unlearning")
+UNLEARN_ROOT = (_REPO)
 
 
 def main() -> None:

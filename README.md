@@ -53,13 +53,13 @@ export PYTHONPATH=$PWD/src:$PYTHONPATH   # unlearning methods (src/fin_unlearnin
 # cloned to ptq_frozen/Time-Series-Library
 ```
 
-Then follow the phases in order (each `.sbatch` wraps the `.py` of the same name):
+Create the log directory once (`mkdir -p outputs/slurm_logs`) if missing, then follow the phases in order (each `.sbatch` wraps the `.py` of the same name):
 
 ```bash
 sbatch scripts/v2_ref.sbatch       # reference models
 sbatch scripts/v2_pilot.sbatch     # oracles + unlearning methods
 sbatch scripts/v2_detector.sbatch  # audit / detector arrays
-python scripts/make_figures.py     # rebuild figures from results/figure_series.json
+mkdir -p figs && python scripts/make_figures.py   # rebuild figures (figs/) from results/figure_series.json
 ```
 
 ## What's inside
@@ -81,8 +81,15 @@ paper/                 Paper PDF
   retrained from scratch matched the stored result to six decimals.
 - Raw checkpoints and per-cell predictions (tens of GB) are not included.
   `results/` holds only the aggregated series.
-- Scripts were written for the Hawk cluster and contain absolute paths
-  (e.g. `/nfs/storage1/home/ye/fin-unlearning/...`); adjust them to your checkout.
+- All paths are relative to the repo root. Submit SLURM jobs from the repo
+  root (`sbatch scripts/<job>.sbatch ...`); logs go to `outputs/slurm_logs/`.
+  The `#SBATCH` partition and node flags and the container paths in
+  `ptq_frozen/scripts/apptainer_exec.sh` are Hawk-specific; edit them for
+  your cluster.
+- `outputs/` (git-ignored) is where checkpoints, oracle cells, and detector
+  arrays are written. `ptq_frozen/data` is a symlink to `data/`.
+- Hyperparameter tuning (`v2_tune.sbatch`) reads `data/sp500_yf2008_returns.csv`
+  (70 MB, not shipped); the main experiments use the Kaggle panel in `data/`.
 - Yahoo Finance and Kaggle price data are provided for research
   reproducibility only.
 

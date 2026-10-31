@@ -20,12 +20,14 @@ Sign chain under test:  delta = IC_test(oracle) - IC_test(reference);
 positive delta  <=>  oracle better  <=>  deletion IMPROVES skill.
 """
 from __future__ import annotations
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 
 import copy
 import sys
 from pathlib import Path
 
-sys.path.insert(0, "/nfs/storage1/home/ye/fin-unlearning/src")
+sys.path.insert(0, str(_REPO / "src"))
 
 import numpy as np
 import pandas as pd
@@ -36,7 +38,7 @@ from fin_ts_ptq.config import load_config
 from fin_ts_ptq.experiment import build_datasets
 from fin_ts_ptq.models.factory import build_model
 
-UNL = Path("/nfs/storage1/home/ye/fin-unlearning")
+UNL = (_REPO)
 import argparse
 _ap = argparse.ArgumentParser()
 _ap.add_argument("--config", default="configs/transformer_sp500_vol_tuned.yaml")

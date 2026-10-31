@@ -8,12 +8,14 @@ HAR benchmark get saturated hues, the two below get greys, HAR itself is a
 black dashed reference. That way the reader sees the split before reading a
 caption.
 
-Outputs (vector PDF + PNG preview) into v2/paper/figs/:
+Outputs (vector PDF + PNG preview) into figs/:
   fig_ladder.pdf   what a model carried, and what happened when it went
   fig_regimes.pdf  the crisis-year deletion across four test regimes
   fig_methods.pdf  closure of each architecture-method pair across regimes
   fig_audit.pdf    audit separation against memorization, all 100 cells
 """
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 import json
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -27,8 +29,8 @@ mpl.rcParams.update({
     "axes.spines.top": False, "axes.spines.right": False,
 })
 
-S = json.load(open("/nfs/storage1/home/ye/fin-unlearning/v2/outputs/figure_series.json"))
-FIGS = "/nfs/storage1/home/ye/fin-unlearning/v2/paper/figs/"
+S = json.load(open(str(_REPO / "results" / "figure_series.json")))
+FIGS = str(_REPO / "figs") + "/"
 
 ABOVE = ["transformer", "tsmixer", "segrnn"]
 BELOW = ["itransformer", "patchtst"]

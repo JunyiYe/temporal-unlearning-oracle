@@ -11,7 +11,7 @@
 # across folds and seeds (the original rested on fold2024 seed7 alone).
 # 4 models x 6 cells: folds {2021,2022,2023,2025} @ seed7 + fold2024 @ seeds {8,9}.
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 
 MODELS=(patchtst transformer tsmixer segrnn)
 CELLS=("2021 7" "2022 7" "2023 7" "2025 7" "2024 8" "2024 9")

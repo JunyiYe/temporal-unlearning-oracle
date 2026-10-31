@@ -13,13 +13,15 @@ Both are computable from the input by construction, so a healthy architecture
 should drive the loss far below the variance of the target. An architecture
 that cannot is structurally impaired in how we call it.
 """
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 import sys, torch
 from torch.utils.data import TensorDataset, DataLoader
-sys.path.insert(0, '/nfs/storage1/home/ye/fin-ts-ptq/src')
+sys.path.insert(0, str(_REPO / "ptq_frozen" / "src"))
 from fin_ts_ptq.models.factory import build_model
 from fin_ts_ptq.config import load_config
 
-CFG = '/nfs/storage1/home/ye/fin-unlearning/v2/configs/{}_sp500_vol_v2.yaml'
+CFG = str(_REPO / "configs") + "/{}_sp500_vol_v2.yaml"
 task = {"context_length": 64, "horizon": 1}
 dev = 'cuda' if torch.cuda.is_available() else 'cpu'
 

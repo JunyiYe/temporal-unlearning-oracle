@@ -3,10 +3,12 @@
 Read-only. Population d' is recomputed from the per-cell forget-set MSE of the
 10 reference and 10 oracle models, which is the statistic the paper describes.
 """
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 import json, glob, os, math, re
 from collections import defaultdict
 
-ROOT = "/nfs/storage1/home/ye/fin-unlearning/v2/outputs"
+ROOT = str(_REPO / "outputs")
 PAT = re.compile(r"^(?P<arch>[a-z]+)_sp500_vol_v2_era(?P<era>\d{4})_"
                  r"(?P<mode>strict|target|l2halo)_fold(?P<fold>\d{4})_seed(?P<seed>\d+)_unlearn\.json$")
 ARCHS = ["transformer", "tsmixer", "segrnn", "itransformer", "patchtst"]

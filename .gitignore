@@ -10,3 +10,11 @@ __pycache__/
 *.npz
 .claude/
 .local/
+
+# large experiment outputs (checkpoints, per-cell predictions)
+outputs/*
+!outputs/slurm_logs/
+outputs/slurm_logs/*
+!outputs/slurm_logs/.gitkeep
+ptq_frozen/Time-Series-Library/
+figs/

@@ -14,7 +14,7 @@
 # exposure to a dislocation changes the quantization tax on 2020.
 # Array index -> architecture. Output kept separate from the main grid.
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 
 CFGS=(dlinear_sp500v2_vol_opt itransformer_sp500v2_vol_tuned patchtst_sp500v2_vol_tuned \
       segrnn_sp500v2_vol_tuned timemixer_sp500v2_vol_tuned transformer_sp500v2_vol_tuned \

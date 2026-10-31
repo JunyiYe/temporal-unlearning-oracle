@@ -7,17 +7,19 @@ inputs are window-normalized) to ask in WHICH DIRECTION training on
 2020 bends the learned ranking.
 
 One invocation = one (config, fold) at strict mode across all seeds.
-Output: one npz per (config, fold) under v2/outputs/daily_preds/ with
+Output: one npz per (config, fold) under outputs/daily_preds/ with
 date, asset, y, and pred_{ref,ora}_seed{N} arrays.
 """
 from __future__ import annotations
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 
 import argparse
 import sys
 from pathlib import Path
 
-sys.path.insert(0, "/nfs/storage1/home/ye/fin-unlearning/src")
-sys.path.insert(0, "/nfs/storage1/home/ye/fin-unlearning/scripts")
+sys.path.insert(0, str(_REPO / "src"))
+sys.path.insert(0, str(_REPO / "scripts"))
 
 import numpy as np
 import torch
@@ -31,7 +33,7 @@ from fin_ts_ptq.utils.device import resolve_device  # noqa: E402
 
 from fin_unlearning.era import build_era_datasets  # noqa: E402
 
-UNLEARN_ROOT = Path("/nfs/storage1/home/ye/fin-unlearning")
+UNLEARN_ROOT = (_REPO)
 
 
 def main() -> None:

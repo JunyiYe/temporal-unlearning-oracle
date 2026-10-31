@@ -12,7 +12,7 @@
 # Node exclusions keep the global our-jobs footprint at <=3 nodes
 # (gpu2/gpu3 carry other running projects; gpu4 is the third).
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 bash scripts/apptainer_exec.sh python scripts/run_sweep.py \
   --config "$1" \
   --test-years 2021,2022,2023,2024,2025 \

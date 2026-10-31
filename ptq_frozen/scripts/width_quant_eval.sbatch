@@ -12,7 +12,7 @@
 # the fp32-only metrics the scaling ladder wrote, upgrading them to supersets).
 # Array index -> (model, width); folds/seeds fixed inside.
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 
 MODELS=(itransformer patchtst transformer tsmixer)
 WIDTHS=(8 16 32 64 128 256 512)

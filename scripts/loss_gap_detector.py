@@ -16,6 +16,8 @@ docs/verification_mde.md. Runs inside the cluster container:
   sbatch -p gpu-short -J unl_detect scripts/detector.sbatch [args]
 """
 from __future__ import annotations
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 
 import argparse
 import copy
@@ -23,7 +25,7 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, "/nfs/storage1/home/ye/fin-unlearning/src")
+sys.path.insert(0, str(_REPO / "src"))
 
 import numpy as np
 import pandas as pd
@@ -38,7 +40,7 @@ from fin_ts_ptq.utils.device import resolve_device
 
 from fin_unlearning.era import build_era_datasets
 
-UNLEARN_ROOT = Path("/nfs/storage1/home/ye/fin-unlearning")
+UNLEARN_ROOT = (_REPO)
 
 
 def fold_cfg(base: dict, test_year: int, seed: int, train_start_years: int = 0) -> dict:

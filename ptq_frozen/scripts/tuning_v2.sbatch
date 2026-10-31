@@ -15,7 +15,7 @@
 # Array index -> model; per-model output dir avoids jsonl write races.
 # Resumable: finished cells are skipped from the jsonl.
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 
 MODELS=(itransformer patchtst segrnn timemixer transformer tsmixer)
 model=${MODELS[$SLURM_ARRAY_TASK_ID]}

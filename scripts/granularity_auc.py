@@ -16,6 +16,8 @@ login):  sbatch -J unl_gran scripts/detector.sbatch  # wrong entry
 Use:      sbatch -J unl_gran scripts/granularity.sbatch [--stem ...]
 """
 from __future__ import annotations
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 
 import argparse
 import json
@@ -24,7 +26,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-sys.path.insert(0, "/nfs/storage1/home/ye/fin-unlearning/src")
+sys.path.insert(0, str(_REPO / "src"))
 
 import numpy as np
 import pandas as pd
@@ -32,7 +34,7 @@ from scipy.stats import norm
 
 from fin_ts_ptq.metrics.significance import newey_west_mean_test
 
-UNLEARN_ROOT = Path("/nfs/storage1/home/ye/fin-unlearning")
+UNLEARN_ROOT = (_REPO)
 GRAINS = ("window", "day", "week", "month", "era")
 Z80 = norm.ppf(0.8) + norm.ppf(0.975)  # (z_beta + z_alpha/2) for 80% power two-sided
 

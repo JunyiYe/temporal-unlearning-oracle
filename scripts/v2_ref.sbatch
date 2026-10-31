@@ -5,9 +5,12 @@
 #SBATCH --mem=40G
 #SBATCH -t 08:00:00
 #SBATCH -x hawk-gpu7
-#SBATCH -o /nfs/storage1/home/ye/fin-unlearning/v2/outputs/slurm_logs/%x_%j.log
+#SBATCH -o outputs/slurm_logs/%x_%j.log
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
-export APPTAINER_BINDPATH="/nfs/storage1/home/ye/fin-unlearning"
-export PYTHONPATH="/nfs/storage1/home/ye/fin-unlearning/src"
-bash scripts/apptainer_exec.sh python /nfs/storage1/home/ye/fin-unlearning/scripts/v2_ref.py "$@"
+# Submit from the repository root: `sbatch scripts/<job>.sbatch ...`
+REPO="${SLURM_SUBMIT_DIR:-$PWD}"
+cd "$REPO/ptq_frozen"
+export PROJECT_HOME="$REPO/ptq_frozen"
+export APPTAINER_BINDPATH="$REPO"
+export PYTHONPATH="$REPO/src"
+bash scripts/apptainer_exec.sh python $REPO/scripts/v2_ref.py "$@"

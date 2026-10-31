@@ -12,7 +12,7 @@
 # (seeds 2,3 of fold 2024 + seed 1 of folds 2019/2021/2022/2025),
 # supporting the map-stability claim. Array index -> architecture.
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 
 CFGS=(dlinear_sp500v2_vol_opt itransformer_sp500v2_vol_tuned patchtst_sp500v2_vol_tuned \
       segrnn_sp500v2_vol_tuned timemixer_sp500v2_vol_tuned transformer_sp500v2_vol_tuned \

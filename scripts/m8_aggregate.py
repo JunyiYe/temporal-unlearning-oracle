@@ -1,17 +1,19 @@
 """Aggregate method cells into Table-3 rows (kappa, dIC vs oracle, cost).
 
 Usage: python m8_aggregate.py <stem> [<stem> ...]
-Reads v2/outputs/pilot/{stem}_era2020_strict_fold2024_seed{4..13}_unlearn.json.
+Reads outputs/pilot/{stem}_era2020_strict_fold2024_seed{4..13}_unlearn.json.
 kappa per Eq. 4; dIC = test_daily_ic_mean(method) - test_daily_ic_mean(oracle);
 cost = method wall-clock / oracle retrain wall-clock (oracle timings from the
 cell JSON itself if present, else backup_pre_m8/oracle_timings.json).
 """
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 import json
 import statistics
 import sys
 from pathlib import Path
 
-PILOT = Path("/nfs/storage1/home/ye/fin-unlearning/v2/outputs/pilot")
+PILOT = (_REPO / "outputs" / "pilot")
 ORA_T = PILOT / "backup_pre_m8" / "oracle_timings.json"
 METHODS = ["finetune", "neggrad_hinge", "scrub", "ts_unlearn"]
 SEEDS = range(4, 14)

@@ -5,8 +5,10 @@ L1) in the (forget-window IC, test IC) plane, with the reference and the
 exact oracle as anchors. Every point is the mean of 10 seeds with 1-sd bars.
 The noise target (privacy) sits at IC_F = 0; the counterfactual sits at 0.51.
 
-Output: v2/paper/figs/fig_two_definitions.pdf (vector) + .png preview.
+Output: figs/fig_two_definitions.pdf (vector) + .png preview.
 """
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
@@ -87,7 +89,7 @@ ax.legend(loc="upper center", bbox_to_anchor=(0.5, 1.22), ncols=3,
 fig.tight_layout(pad=0.3)
 
 import pathlib
-out = pathlib.Path("/nfs/storage1/home/ye/fin-unlearning/v2/paper/figs")
+out = (_REPO / "figs")
 out.mkdir(parents=True, exist_ok=True)
 fig.savefig(out / "fig_two_definitions.pdf", bbox_inches="tight", pad_inches=0.05)
 fig.savefig(out / "fig_two_definitions.png", dpi=300, bbox_inches="tight", pad_inches=0.05)

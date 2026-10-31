@@ -11,7 +11,7 @@ on, before the min-history filter):
     equal-weight cumulative return within the year, in per cent
 
 Run from the fin-ts-ptq repo root:
-  python /nfs/storage1/home/ye/fin-unlearning/v2/scripts/year_market_stats.py
+  python scripts/year_market_stats.py
 
 Validation note (2026-08-08): reproduces the previously recorded values
 exactly for 2017-2024; corrects 2016's drawdown to -11.3% (the older

@@ -10,10 +10,12 @@ Run this before re-running any architecture whose config was edited.
     python scripts/purge_stale_cells.py --auto --apply             # all drifted
 """
 from __future__ import annotations
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 import argparse, json, shutil
 from pathlib import Path
 
-ROOT = Path('/nfs/storage1/home/ye/fin-unlearning')
+ROOT = (_REPO)
 OUT = ROOT / 'v2/outputs'
 MANIFEST = OUT / 'config_manifest.json'
 

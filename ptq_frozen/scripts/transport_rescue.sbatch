@@ -10,7 +10,7 @@
 # Transport check step 2: percentile rescue on the Nikkei panel
 # (submit with --dependency=afterok:<transport_sweep array>).
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 
 MODELS=(dlinear itransformer patchtst segrnn timemixer transformer tsmixer)
 m=${MODELS[$SLURM_ARRAY_TASK_ID]}

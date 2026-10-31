@@ -13,8 +13,10 @@ Hypothesis ("persistence inflation"): training on 2020 teaches an
 exaggerated volatility persistence, so diff should correlate
 POSITIVELY with trailing volatility, stably across days, archs, folds.
 
-Inputs:  v2/outputs/daily_preds/*_preds.npz  (from daily_preds.py)
+Inputs:  outputs/daily_preds/*_preds.npz  (from daily_preds.py)
 """
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 import csv
 import math
 from collections import defaultdict
@@ -22,8 +24,8 @@ from pathlib import Path
 
 import numpy as np
 
-ROOT = Path("/nfs/storage1/home/ye/fin-unlearning/v2")
-PANEL = "/nfs/storage1/home/ye/fin-ts-ptq/data/sp500_kaggle_returns.csv"
+ROOT = (_REPO)
+PANEL = str(_REPO / "data" / "sp500_kaggle_returns.csv")
 ARCHS = ["transformer", "tsmixer", "segrnn"]
 FOLDS = ["2022", "2023", "2024", "2025"]
 SEEDS = list(range(4, 14))

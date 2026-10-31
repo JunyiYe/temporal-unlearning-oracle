@@ -14,7 +14,7 @@
 # Seeds 1-5 (first pass; top-up 6-10 on demand). Resumable (skip-existing).
 # Usage: sbatch --array=0-7 scripts/sweep_v2.sbatch <config_stem>
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 
 cfg=${1:?usage: sbatch --array=0-7 scripts/sweep_v2.sbatch <config_stem> [seeds]}
 seeds=${2:-1,2,3,4,5}

@@ -12,7 +12,7 @@
 # the p99-vs-absmax daily damage gap can be attributed to contaminated
 # (envelope-break-exposed) vs clean days. Array index -> (model, year).
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 
 MODELS=(dlinear_sp500_vol_opt itransformer_sp500_vol_tuned patchtst_sp500_vol_tuned \
         segrnn_sp500_vol_tuned timemixer_sp500_vol_tuned transformer_sp500_vol_tuned \

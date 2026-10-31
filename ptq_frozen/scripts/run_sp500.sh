@@ -10,7 +10,7 @@
 # variant is one of: (empty)=next-day return, weekly=5-day forward return, vol=5-day forward realized vol
 export PATH="/usr/local/anaconda3/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/anaconda3/lib:$LD_LIBRARY_PATH"
-export PYTHONPATH="/nfs/storage1/home/ye/fin-ts-ptq/Time-Series-Library:/nfs/storage1/home/ye/fin-ts-ptq/src"
-cd /nfs/storage1/home/ye/fin-ts-ptq
+export PYTHONPATH="${SLURM_SUBMIT_DIR:-$PWD}/Time-Series-Library:${SLURM_SUBMIT_DIR:-$PWD}/src"
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 variant_suffix="${2:+_$2}"
 python scripts/run_experiment.py --config "configs/${1}_sp500${variant_suffix}_opt.yaml"

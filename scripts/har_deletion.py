@@ -17,6 +17,8 @@ If HAR is inert while the neural models move, it lives in model capacity.
     python scripts/har_deletion.py --fold 2022 --eras 2016,2017,2018,2019,2020
 """
 from __future__ import annotations
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 
 import argparse
 import json
@@ -26,7 +28,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, "/nfs/storage1/home/ye/fin-ts-ptq/src")
+sys.path.insert(0, str(_REPO / "ptq_frozen" / "src"))
 from fin_ts_ptq.data.panel import PanelSpec, load_csv_panel          # noqa: E402
 from fin_ts_ptq.metrics.significance import daily_ic_frame, newey_west_mean_test  # noqa: E402
 
@@ -64,7 +66,7 @@ def predict(beta: np.ndarray, tbl: pd.DataFrame) -> np.ndarray:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--data", default="/nfs/storage1/home/ye/fin-ts-ptq/data/sp500_kaggle_returns.csv")
+    ap.add_argument("--data", default=str(_REPO / "data" / "sp500_kaggle_returns.csv"))
     ap.add_argument("--fold", type=int, required=True, help="test year")
     ap.add_argument("--eras", required=True)
     ap.add_argument("--train-years", type=int, default=5)
@@ -72,7 +74,7 @@ def main() -> None:
                     help="strict = L1 (context halo), target = L0 (target date only)")
     ap.add_argument("--boot", type=int, default=10,
                     help="bootstrap refits standing in for the neural models' seed population")
-    ap.add_argument("--out", default="/nfs/storage1/home/ye/fin-unlearning/v2/outputs/har_deletion.json")
+    ap.add_argument("--out", default=str(_REPO / "results" / "har_deletion.json"))
     args = ap.parse_args()
 
     panel = load_csv_panel(PanelSpec(path=args.data, min_history=1000))

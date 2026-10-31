@@ -13,7 +13,7 @@
 # Completes the money figure's p99 bars (dlinear/itransformer/timemixer were
 # missing) and upgrades every rescue entry from 25 to 50 cells.
 set -euo pipefail
-cd /nfs/storage1/home/ye/fin-ts-ptq
+cd ${SLURM_SUBMIT_DIR:-$PWD}
 
 MODELS=(dlinear_sp500_vol_opt itransformer_sp500_vol_tuned patchtst_sp500_vol_tuned \
         segrnn_sp500_vol_tuned timemixer_sp500_vol_tuned transformer_sp500_vol_tuned \

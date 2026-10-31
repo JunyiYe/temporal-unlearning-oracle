@@ -9,6 +9,8 @@ variant: test daily IC, forget MSE, gap_closed, retain-sample MSE.
       configs/transformer_sp500_vol_tuned.yaml,configs/patchtst_sp500_vol_tuned.yaml
 """
 from __future__ import annotations
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 
 import argparse
 import copy
@@ -16,7 +18,7 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, "/nfs/storage1/home/ye/fin-unlearning/src")
+sys.path.insert(0, str(_REPO / "src"))
 
 import numpy as np
 import torch
@@ -32,7 +34,7 @@ from fin_ts_ptq.utils.seed import set_seed
 from fin_unlearning.era import build_era_datasets
 from fin_unlearning.methods import neggrad_plus, scrub, ts_unlearn
 
-UNLEARN_ROOT = Path("/nfs/storage1/home/ye/fin-unlearning")
+UNLEARN_ROOT = (_REPO)
 
 
 def fold_cfg(base: dict, test_year: int, seed: int) -> dict:

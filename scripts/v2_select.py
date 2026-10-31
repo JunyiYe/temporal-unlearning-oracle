@@ -5,6 +5,8 @@ Stdlib-only (reads small jsonl files, edits config text) — login-safe.
   python scripts/v2_select.py
 """
 from __future__ import annotations
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 
 import json
 import re
@@ -12,21 +14,21 @@ import statistics as st
 from collections import defaultdict
 from pathlib import Path
 
-UNL = Path("/nfs/storage1/home/ye/fin-unlearning")
-PTQ = Path("/nfs/storage1/home/ye/fin-ts-ptq")
+UNL = (_REPO)
+PTQ = (_REPO / "ptq_frozen")
 ARCHS = ["transformer", "itransformer", "segrnn", "patchtst"]
 
 
 def main() -> None:
     gate_lines = ["# P0 gate readout (tuning selection)", ""]
     ok = True
-    (UNL / "v2/configs").mkdir(parents=True, exist_ok=True)
+    (UNL / "configs").mkdir(parents=True, exist_ok=True)
 
     for arch in ARCHS:
         # gather all (config, seed) records across the per-config dirs
         by_cfg: dict[tuple, list[float]] = defaultdict(list)
         epochs: dict[tuple, list[int]] = defaultdict(list)
-        for f in (UNL / "v2/outputs/tuning" / arch).rglob("tuning_results.jsonl"):
+        for f in (UNL / "outputs/tuning" / arch).rglob("tuning_results.jsonl"):
             for line in f.read_text(encoding="utf-8").splitlines():
                 if not line.strip():
                     continue
@@ -64,13 +66,13 @@ def main() -> None:
         tpl = re.sub(r"(?m)^(\s*d_model:)\s*\d+", rf"\g<1> {w_cfg[0]}", tpl)
         tpl = re.sub(r"(?m)^(\s*d_ff:)\s*\d+", rf"\g<1> {4 * w_cfg[0]}", tpl)
         tpl = re.sub(r"(?m)^(\s*dropout:)\s*[\d.]+", rf"\g<1> {w_cfg[1]}", tpl)
-        out = UNL / f"v2/configs/{arch}_sp500_vol_v2.yaml"
+        out = UNL / f"configs/{arch}_sp500_vol_v2.yaml"
         out.write_text(tpl, encoding="utf-8")
         gate_lines.append(f"- emitted {out.name}")
         gate_lines.append("")
 
     gate_lines.append("GATE P0: " + ("PASS" if ok else "HOLD (incomplete cells)"))
-    rd = UNL / "v2/docs/p0_gate.md"
+    rd = UNL / "docs/p0_gate.md"
     rd.write_text("\n".join(gate_lines) + "\n", encoding="utf-8")
     print("\n".join(gate_lines))
 

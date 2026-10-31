@@ -6,10 +6,12 @@ sign to Eq. 3; never read it. Always compute IC(ora) - IC(ref) directly from
 test_daily_ic_mean.  The HAC t-stat in oracle.vs_reference.tstat is likewise
 signed against Eq. 3, so it is reported with the sign flipped.
 """
+from pathlib import Path as _P
+_REPO = _P(__file__).resolve().parents[1]
 import json, glob, os, math, re
 from collections import defaultdict
 
-PILOT = "/nfs/storage1/home/ye/fin-unlearning/v2/outputs/pilot"
+PILOT = str(_REPO / "outputs" / "pilot")
 FILES = sorted(glob.glob(os.path.join(PILOT, "*_unlearn.json")))
 PAT = re.compile(r"^(?P<arch>[a-z]+)_sp500_vol_v2_era(?P<era>\d{4})_"
                  r"(?P<mode>strict|target|l2halo)_fold(?P<fold>\d{4})_seed(?P<seed>\d+)_unlearn\.json$")
