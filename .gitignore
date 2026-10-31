@@ -16,5 +16,5 @@ outputs/*
 !outputs/slurm_logs/
 outputs/slurm_logs/*
 !outputs/slurm_logs/.gitkeep
-ptq_frozen/Time-Series-Library/
+forecasting/Time-Series-Library/
 figs/

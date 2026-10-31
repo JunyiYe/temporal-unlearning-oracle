@@ -44,13 +44,13 @@ What the oracle shows:
 ## Quick start
 
 Experiments run on a SLURM GPU cluster inside an Apptainer container
-(see `ptq_frozen/scripts/apptainer_exec.sh` and `ptq_frozen/env/`).
+(see `forecasting/scripts/apptainer_exec.sh` and `forecasting/env/`).
 
 ```bash
-pip install -e ptq_frozen          # the frozen training/evaluation package
+pip install -e forecasting          # training/evaluation package (fin_ts_ptq)
 export PYTHONPATH=$PWD/src:$PYTHONPATH   # unlearning methods (src/fin_unlearning)
 # plus Time-Series-Library (https://github.com/thuml/Time-Series-Library),
-# cloned to ptq_frozen/Time-Series-Library
+# cloned to forecasting/Time-Series-Library
 ```
 
 Create the log directory once, then run the phases in order:
@@ -70,7 +70,7 @@ python scripts/make_figures.py          # figures from results/figure_series.jso
 src/fin_unlearning/    Unlearning methods (SCRUB, hinge, ...) and era-deletion logic
 scripts/               Experiment drivers, SLURM jobs, aggregation, and figure scripts
 configs/               Tuned per-architecture configs (`<arch>_sp500_vol.yaml`)
-ptq_frozen/            Frozen snapshot of the fin_ts_ptq package the experiments run on
+forecasting/           Training and evaluation package the experiments run on (frozen)
 data/                  S&P 500 daily returns panel used in the paper
 results/               Aggregated outputs the paper's figures are built from
 paper/                 Paper PDF
@@ -83,8 +83,8 @@ paper/                 Paper PDF
   scratch matched the stored result to six decimals.
 - Paths are relative to the repo root: submit jobs from there. The `#SBATCH`
   partition and node flags and the container paths in
-  `ptq_frozen/scripts/apptainer_exec.sh` are Hawk-specific; edit them for your
-  cluster. Outputs go to `outputs/` (git-ignored); `ptq_frozen/data` is a
+  `forecasting/scripts/apptainer_exec.sh` are Hawk-specific; edit them for your
+  cluster. Outputs go to `outputs/` (git-ignored); `forecasting/data` is a
   symlink to `data/`.
 - `data/` holds the S&P 500 panel used for the main experiments. Hyperparameter
   tuning (`tune.sbatch`) also reads `data/sp500_yf2008_returns.csv` (70 MB, not
