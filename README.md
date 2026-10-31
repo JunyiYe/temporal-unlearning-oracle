@@ -1,7 +1,7 @@
 # Temporal Unlearning Oracle
 
 **Can You Delete a Year of Market Data? Machine Unlearning Against Exact Retraining Oracles**
-Junyi Ye · ICAIF '26 · [paper PDF](paper/icaif26-189.pdf)
+Junyi Ye · ICAIF '26 · [paper PDF](paper/icaif26-189.pdf) · [doi:10.1145/3858063.3858875](https://doi.org/10.1145/3858063.3858875)
 
 This repo contains the code, data, and results behind the paper. It asks
 what happens to a financial forecaster when one year of its training data
@@ -97,7 +97,8 @@ If you find this repo useful, please consider giving it a star ⭐ and citing th
   booktitle = {Proceedings of the 7th ACM International Conference on AI in Finance (ICAIF '26)},
   year      = {2026},
   address   = {Milan, Italy},
-  publisher = {ACM}
+  publisher = {ACM},
+  doi       = {10.1145/3858063.3858875}
 }
 ```
 
