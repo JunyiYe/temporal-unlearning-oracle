@@ -1,0 +1,217 @@
+\section{Methodology}\label{sec:method}
+
+\subsection{The unlearning problem}
+
+Machine unlearning arises when part of a model's training data must
+be deleted after training. Let $D$ be the training data and $A$ the
+training procedure, including the architecture, the hyperparameters,
+and the random seed. The \emph{forget set} $F \subset D$ holds the
+observations to be deleted, and the \emph{retain set} $D \setminus F$
+holds the rest. The model trained on everything, $A(D)$, is the
+\emph{reference}. The model retrained from scratch on the retain
+set, $A(D \setminus F)$, is the \emph{oracle}, or
+\emph{counterfactual}, the ground truth of deletion. Because
+retraining is often unaffordable, \emph{approximate unlearning}
+instead edits the reference in place with an \emph{unlearning
+operator} $U$, aiming for a model that a prescribed audit cannot
+distinguish from the oracle.
+
+\begin{table}[t]
+\centering
+\caption{Deletion levels for a requested period $T$. Each level
+includes all restrictions of the preceding level. \Lone{} is the
+paper-wide default.}
+\label{tab:deletion_levels}
+\footnotesize
+\begin{tabular}{@{}p{0.13\columnwidth}p{0.78\columnwidth}@{}}
+\toprule
+Level & Prohibited use of $T$ and representative examples \\
+\midrule
+\Lzero{} &
+\textbf{Target deletion.}
+Use in forecast targets, such as prediction labels. \\
+\Lone{} &
+\textbf{Window deletion.}
+Direct appearance in inputs or targets, such as context windows,
+and use in the normalization statistics that scale them. \\
+\Ltwo{} &
+\textbf{Derived-data deletion.}
+Dependence through feature construction, such as rolling statistics
+and imputation. \\
+\Lthree{} &
+\textbf{Full-pipeline deletion.}
+Influence on model-development decisions, such as hyperparameter
+tuning and model selection. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{A membership lattice for temporal deletion}
+
+In time series, a deletion request does not name a forget set. It
+names a period $T$, a set of dates whose use is no longer permitted.
+A single date inside $T$ can touch a rolling forecaster in four
+distinct ways, and each way is one level of
+Table~\ref{tab:deletion_levels}. Consider one trading day in March
+2020. It is the prediction \emph{target} of the windows that
+forecast it (\Lzero). It sits inside the 64-day \emph{input context}
+of windows whose targets fall up to three months later (\Lone). It
+enters \emph{derived quantities} computed from it, such as rolling
+features with long tails (\Ltwo). And it may have influenced
+\emph{model-development decisions} such as hyperparameter tuning
+(\Lthree). Each level forbids everything the preceding level does
+plus one further form of dependence, so the four readings are
+nested. We call this ordering the membership lattice. The first
+three levels change only which training examples are retained,
+giving nested forget sets $F_\ell(T)$, whose exact construction is
+specified in the released protocol.
+
+Strictness has a measurable price in two currencies. The first is
+data. Because windows overlap, \Lone{} removes windows whose target
+dates lie outside $T$, and on this panel it surrenders about $25\%$
+more windows than \Lzero. The second is the measurement itself. The
+level changes the forget set, and with it the measured memorization
+gap (Section~\ref{sec:levels}). A temporal deletion request is therefore incomplete unless its
+level is named. We adopt \Lone{} as the paper-wide default and use
+\Lzero{} and \Ltwo{} as robustness checks. \Lthree{} may alter the
+training procedure itself rather than only the retained examples.
+It coincides with \Ltwo{} here by construction, because tuning and
+model selection predate every deletable era.
+
+At every level, the target of unlearning is the oracle retrained
+without that level's forget set,
+\begin{equation}
+U\!\left(A(D),F_\ell(T)\right)
+\;\approx_d\;
+A\!\left(D\setminus F_\ell(T)\right),
+\qquad
+\ell\in\{0,1,2\},
+\label{eq:unlearning}
+\end{equation}
+where $\approx_d$ is approximate equality in distribution under a
+prescribed audit, and the method and the oracle use the same level.
+
+% [PAGE-BUDGET L1] restore by removing the leading %% on this block
+%\begin{figure}[t]
+%\centering
+%\begin{tikzpicture}[x=0.68cm, y=0.5cm, font=\footnotesize]
+%  \fill[gray!20] (3.2,-3.95) rectangle (5.6,0.55);
+%  \draw[gray!60] (3.2,-3.95) rectangle (5.6,0.55);
+%  \node at (4.4,-0.05) {deleted era $T$};
+%  \draw[decorate, decoration={brace, amplitude=3pt}]
+%    (5.65,0.55) -- (6.95,0.55) node[midway, above=3pt] {context halo};
+%  \draw[->] (0,-3.95) -- (8.3,-3.95);
+%  \node[below] at (4.15,-3.95) {trading days};
+%  \node[right] at (8.0,-0.15) {dropped at:};
+%  \draw[fill=gray!8] (0.2,-1.10) rectangle (1.60,-0.65);
+%  \fill[black] (1.60,-1.10) rectangle (1.78,-0.65);
+%  \node[right] at (8.0,-0.875) {---};
+%  \draw[fill=gray!8] (1.75,-1.75) rectangle (3.15,-1.30);
+%  \fill[black] (3.15,-1.75) rectangle (3.33,-1.30);
+%  \node[right] at (8.0,-1.525) {\Lzero{}, \Lone};
+%  \draw[fill=gray!8] (3.50,-2.40) rectangle (4.90,-1.95);
+%  \fill[black] (4.90,-2.40) rectangle (5.08,-1.95);
+%  \node[right] at (8.0,-2.175) {\Lzero{}, \Lone};
+%  \draw[fill=gray!8, very thick] (4.70,-3.05) rectangle (6.10,-2.60);
+%  \fill[black] (6.10,-3.05) rectangle (6.28,-2.60);
+%  \node[right] at (8.0,-2.825) {\Lone{} only};
+%  \draw[fill=gray!8] (6.30,-3.70) rectangle (7.70,-3.25);
+%  \fill[black] (7.70,-3.70) rectangle (7.88,-3.25);
+%  \node[right] at (8.0,-3.525) {---};
+%\end{tikzpicture}
+%\caption{One deletion request, four readings. Each row is a training
+%window: bar $=$ 64-day context, dark tick $=$ 5-day forecast target.
+%\Lzero{} drops windows whose \emph{target} touches $T$ (rows 2--3).
+%\Lone{} also drops windows whose \emph{context} touches $T$ (row 4,
+%bold). Row 5 lies beyond the halo and survives both.}
+%\label{fig:lattice}
+%\end{figure}
+
+\subsection{Counterfactuals and governance metrics}
+
+For each deletion request and level, the oracle retrains the model from
+scratch on the retain set under the reference model's training
+protocol. An approximate method is judged by how closely it reproduces
+this counterfactual, not by how much it degrades predictions on the
+deleted period.
+
+Let $\text{ref} = A(D)$ denote the reference model,
+$\text{ora} = A(D \setminus F_\ell(T))$ the retrained counterfactual,
+and $m = U(\text{ref}, F_\ell(T))$ the model produced by an approximate
+operator. The forget-set loss $\mathcal{L}_F(\cdot)$ measures how
+well a model still fits the deleted data, so a higher loss indicates
+more forgetting. The test score $s_{\text{test}}(\cdot)$
+measures forecast quality on the test set, oriented so that higher is
+better.
+
+\textbf{Memorization gap $G_F$.} The memorization gap is the reference
+model's excess fit over the counterfactual on the forget set,
+\begin{equation}
+G_F = \mathcal{L}_F(\text{ora}) - \mathcal{L}_F(\text{ref}).
+\label{eq:gap}
+\end{equation}
+A gap near zero means the forget set was barely memorized; a large gap
+means it was memorized strongly. $G_F$ is the era-level analogue of the per-example memorization
+score of Feldman and Zhang~\cite{feldman2020what}. It carries the
+units of the target a model was fit to, and is rescaled as
+$G_F/\mathrm{Var}(y_T)$ when a model with a different target is
+compared.
+
+\textbf{Closure $\gapclosed$.} The closure is the fraction of the
+memorization gap that a method $m$ removes,
+\begin{equation}
+\gapclosed(m) =
+\frac{\mathcal{L}_F(m) - \mathcal{L}_F(\text{ref})}{G_F}.
+\label{eq:kappa}
+\end{equation}
+A closure of $0$ means the method forgets nothing and remains at the
+reference, $1$ means it reaches the counterfactual, and above $1$
+means it over-forgets.
+
+\textbf{Deletion effect $\Delta s_{\text{test}}$.} The deletion effect
+is the change in test score caused by exact deletion, measured one day
+at a time so that offsetting daily differences are not hidden by the
+average. The reference and the counterfactual score the same
+cross-section on each evaluation day $t$, so the daily change is
+$\Delta s_t = s_t(\text{ora}) - s_t(\text{ref})$, and
+\begin{equation}
+\Delta s_{\text{test}} =
+\frac{1}{N_{\text{test}}}\sum_{t=1}^{N_{\text{test}}} \Delta s_t .
+\label{eq:delta}
+\end{equation}
+A positive $\Delta s_{\text{test}}$ means deletion improves the
+test score, and a negative value means the deleted period carried
+useful signal. Where no confusion arises we write $\Delta$ for
+$\Delta s_{\text{test}}$ and $G$ for $G_F$.
+
+\subsection{Auditing deletion}
+
+The goal of an audit is to determine whether information from the
+deleted period remains detectable in the model. Throughout,
+\emph{verified} means one thing only: detectors of stated power found
+no gap above their minimum detectable effect. It never means proof
+that no trace remains.
+
+The audit forms two populations by retraining under different random
+seeds: references that include $T$ in training, and counterfactuals
+that omit it. This is the access model a model owner or an appointed
+auditor can realistically arrange: fixed code, fixed data cuts, and
+multiple retraining seeds. Given a per-model statistic $a(\cdot)$,
+the audit separation is
+\begin{equation}
+d' = \frac{\bigl\lvert\, \overline{a(\text{ora})} -
+\overline{a(\text{ref})} \,\bigr\rvert}{\mathrm{sd}_{\text{pool}}},
+\label{eq:dprime}
+\end{equation}
+the standardized distance between the two population means, where
+$\mathrm{sd}_{\text{pool}}$ is the pooled standard deviation across
+seeds. A large $d'$ means the populations separate and deletion is
+detectable; $d' \approx 0$ means they are indistinguishable and
+deletion cannot be certified from $a$. We take $a = \mathcal{L}_F$
+because it is evaluated on the deleted data, where the populations
+separate sharply. We report $d'$ rather than an AUC because $d'$
+does not saturate.
+
+The granularity of $a$ matters. Aggregating over the whole deleted
+period gives an era-level audit, and scoring individual overlapping
+windows gives a window-level audit.

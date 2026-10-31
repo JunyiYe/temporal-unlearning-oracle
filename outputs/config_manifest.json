@@ -1,0 +1,11 @@
+{
+  "fingerprints": {
+    "dlinear": "cb908338ee00af2f",
+    "itransformer": "36cb9b117aec85de",
+    "patchtst": "6499871c95a09b3e",
+    "segrnn": "8fefcdcba0a2e334",
+    "timemixer": "97c4b17b50159617",
+    "transformer": "3fb3e5e567662dfd",
+    "tsmixer": "f2b6b48885a978f5"
+  }
+}

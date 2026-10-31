@@ -1,0 +1,54 @@
+\section{Related Work}\label{sec:related}
+
+\textbf{Machine unlearning.} The problem dates to Cao and
+Yang~\cite{cao2015towards}, and the GDPR right to
+erasure~\cite{gdpr2016} gave it urgency. The families are exact
+unlearning by training-time design~\cite{bourtoule2021sisa} and
+approximate post-hoc editing by gradient ascent, relabeling or
+distillation~\cite{kurmanji2023scrub}, mapped by
+surveys~\cite{nguyen2025survey}.
+Evaluation increasingly treats the retrained model as ground
+truth~\cite{shi2024muse}, but at scale the oracle
+stays unaffordable and proxies dominate. We invert that constraint
+and instantiate the oracle for every question asked.
+
+\textbf{Unlearning for time series.}
+TS-Unlearn~\cite{wang2026tsunlearn} is to our knowledge the only
+forecasting-specific method, a teacher--student scheme whose forget
+objective drives predictions toward Gaussian noise. Its authors
+read forget error exceeding the retrained reference as
+thoroughness, a privacy framing, and note qualitatively that
+autocorrelation lets retained data inform forgotten samples. We
+measure how far the noise target sits from the compliance one, and
+our membership lattice turns their observation into a definition.
+
+\textbf{Auditing and membership inference.} Membership inference
+attacks test whether a datum was in a model's training set,
+calibrated against ``shadow'' models trained with and without it.
+They are the standard verification
+primitive~\cite{carlini2022lira}, and their limits are
+contested~\cite{zhang2024mia_cannot}. The time-series
+adaptations partition members by
+individual~\cite{johansson2026privacy}, which sidesteps the
+overlapping-window ambiguity. Temporal forget units make that
+ambiguity unavoidable, and our audit design confronts it directly.
+
+\textbf{Is memorized data worth keeping?} Two literatures answer
+this, each under an assumption our setting does not grant.
+Long-tail theory shows that memorizing rare examples is necessary
+for generalization under i.i.d.\
+evaluation~\cite{feldman2020memorization}. Data valuation finds
+subsets worth dropping without retraining, but the subsets it
+surfaces are corrupted or
+mislabelled~\cite{ghorbani2019datashapley}. We use the era-level
+analogue of the per-example memorization
+score~\cite{feldman2020what} throughout.
+
+% [PAGE-BUDGET L3] restore by removing the leading %% on this block
+%\textbf{Evaluation at financial signal-to-noise.} Financial forecast
+%evaluation has its own discipline: signal-bearing tasks, paired daily
+%tests with HAC standard errors~\cite{newey1987hac}, and
+%minimum-detectable-effect accounting. Without it, degradation and
+%forgetting claims at this signal-to-noise are unfalsifiable. We adopt
+%it wholesale, and it is not optional: i.i.d.\ treatment of
+%overlapping windows materially overstates audit confidence.

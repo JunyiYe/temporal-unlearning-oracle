@@ -1,0 +1,71 @@
+\documentclass[sigconf,anonymous,review]{acmart}
+
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{xspace}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{decorations.pathreplacing}
+
+\newcommand{\ic}{\mathrm{IC}\xspace}
+\newcommand{\forgetic}{\ensuremath{\ic_{\mathcal{F}}}\xspace}
+\newcommand{\Lzero}{\textsf{L0}\xspace}
+\newcommand{\Lone}{\textsf{L1}\xspace}
+\newcommand{\Ltwo}{\textsf{L2}\xspace}
+\newcommand{\Lthree}{\textsf{L3}\xspace}
+\newcommand{\gapclosed}{\ensuremath{\kappa}\xspace}
+
+\settopmatter{printacmref=false}
+\acmConference[ICAIF '26]{The 7th ACM International Conference on AI in Finance}{2026}{under review}
+\setcopyright{none}
+
+\begin{document}
+
+\title[Can You Delete a Year of Market Data?]{Can You Delete a Year of
+Market Data?\\ Machine Unlearning Against Exact Retraining Oracles}
+
+\begin{abstract}
+When a data license expires, its data must stop influencing
+production models. Machine unlearning is the tool for this
+obligation, but its ground truth, retraining from scratch without
+the deleted data, is unaffordable at the scale the field studies,
+so approximate methods are scored against proxies. Financial
+forecasters retrain in minutes. We therefore evaluate deletion
+against 3{,}200 exact retraining oracles on an S\&P~500 volatility
+panel, spanning five architectures, five deletable years, three
+deletion levels, and four test years. Three findings follow.
+Deleting the COVID crisis year is not a cost. Every deployable
+architecture forecasts the next bear market better without it, the
+effect follows the deleted year's position in the training window,
+and only the two architectures below a standard volatility
+benchmark show no consistent response. The correct target of
+unlearning is the counterfactual, not noise. The counterfactual
+still predicts the deleted year at an information coefficient of
+0.51, and forcing predictions toward noise surrenders the model. Of
+twelve deployable architecture-method pairs, exactly one brackets
+the oracle, at $74$--$118\%$ of its forgetting with skill intact,
+and no ranking transfers across architectures or windows, so the
+only trustworthy acceptance test is one's own oracle, which costs
+minutes. Deletion is auditable only where the model memorized the
+era. Seventeen per cent of legitimate deletions leave a trace too
+faint to verify, window-level auditing stays near chance, and
+treating overlapping windows as independent overstates audit
+confidence. Protocol, code, and the full oracle--method--audit
+matrix are released.
+\end{abstract}
+
+\maketitle
+
+\input{sections/01_intro}
+\input{sections/02_related}
+\input{sections/03_method}
+\input{sections/04_exp}
+\input{sections/04_rq1}
+\input{sections/05_rq2}
+\input{sections/06_rq3}
+\input{sections/08_conclusion}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{refs}
+
+\end{document}

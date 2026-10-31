@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.aux
+*.log
+*.out
+*.blg
+*.ckpt
+*.pt
+*.pth
+*.npz
+.claude/
+.local/
+data/

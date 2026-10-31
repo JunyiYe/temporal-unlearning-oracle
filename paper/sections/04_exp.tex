@@ -1,0 +1,113 @@
+\section{Experimental Setup}\label{sec:exp}
+
+\subsection{One run of the study}
+
+We train a Transformer on the five years 2016--2020 and deploy it on
+2022. Now the license on the 2020 data expires. We retrain the same
+architecture, with the same hyperparameters and the same seed, on the
+remaining four years. The original model is the reference of Section~\ref{sec:method},
+and the retrained one is the oracle. This one pair answers every
+question in the paper. Its fit gap on 2020 is the memorization gap
+$G$, its forecast difference on 2022 is the deletion effect
+$\Delta$, and whether an auditor can tell the pair apart is the
+audit question.
+
+The full study repeats this comparison 3{,}200 times. One
+combination of architecture, training window, deleted year, and
+deletion level is a \emph{cell}, with ten seeds per cell. Five
+architectures, four windows, five deletable years, three levels,
+and ten seeds give 3{,}000 oracle retrains, and a placebo control
+adds 200.
+
+\subsection{Forecasting task and data}
+
+The task is 5-day-ahead realized volatility for S\&P~500 stocks, one
+cross-section per trading day: each day the model ranks stocks by how
+volatile the next five days will be. This is a risk task rather than
+an alpha contest; the ranking feeds volatility targeting and position
+sizing. For each asset $i$ and day $t$ the model reads a 64-day
+history of eleven return-derived features and predicts
+$y^{\mathrm{raw}}_{i,t} = \log
+\operatorname{sd}\{r_{i,t+1},\ldots,r_{i,t+5}\}$, the log
+volatility of its next five daily returns, $z$-scored within each
+day's cross-section and clipped to $[-3,3]$. Training minimizes
+mean squared error against this target.
+
+Daily returns are dividend- and split-adjusted simple returns for a
+fixed list of 501 current S\&P~500 constituents, so delisted firms
+are excluded by construction. The panel covers 2015--2025, about
+480 stocks per day, and hyperparameter tuning uses an earlier
+extract reaching back to 2008. The panel and its construction
+scripts are released.
+
+\subsection{Rolling windows and deletions}
+
+There is one training design, not four: a five-year window slid
+forward one year at a time. Each position of the window validates
+on the following year and tests on the year after that. We call
+each window position a \emph{fold}, named by its test year: the
+2022 fold trains on 2016--2020, validates on 2021, and tests on
+2022, and the folds run through 2025. Rolling fixed-width windows
+are standard deployment practice and give every era a scheduled
+exit, which makes deleting a year still inside the active window
+the live compliance case.
+
+Sliding the window is also what separates the paper's two questions.
+Within one window position, the deleted year varies while the test
+year is held fixed. Across window positions, the same deleted year
+(2020, the crisis) is removed under four different test years. The
+first isolates what was deleted, and the second isolates the market
+it is judged in.
+
+Two controls complete the design. A \emph{random-deletion placebo}
+removes the same number of windows as the 2020 deletion, drawn
+uniformly, and separates the effect of losing data volume from the
+effect of losing that particular year. We deliberately do not top up
+the training set to equalize volume, because the compliance
+counterfactual of an expiry is a smaller training set.
+
+\subsection{Models and benchmark}
+
+We tune seven forecasting backbones and report the five that span the
+fit range: the vanilla Transformer~\cite{vaswani2017attention},
+TSMixer~\cite{chen2023tsmixer}, SegRNN~\cite{lin2023segrnn},
+iTransformer~\cite{liu2024itransformer}, and
+PatchTST~\cite{nie2023patchtst}. Two further backbones fit worse
+than the weakest of these and add no further contrast, so they
+appear only in the released sweep.
+
+As an econometric benchmark we refit the heterogeneous autoregressive
+(HAR) model of realized volatility~\cite{corsi2009har} under the
+identical protocol: log 5-day-forward realized volatility regressed
+on its trailing 1-, 5-, and 22-day counterparts by ordinary least
+squares. It has four parameters, is subject to the same deletions,
+and sets the line the results are organized around: a neural
+forecaster that cannot beat it has no business in production. We call
+the three architectures that beat it in every fold the
+\emph{deployable} models. The two that never do underfit this task,
+and we call them the \emph{non-deployable} models.
+
+\subsection{Metrics, tuning, and cost}
+
+Forecast skill is the daily cross-sectional information coefficient
+(IC): each day, the Spearman rank correlation between predictions and
+targets across stocks, averaged over the test year's days,
+written $s_{\text{test}}$. The same quantity computed on the deleted
+year's windows is written \forgetic{}. The forget-set loss
+$\mathcal{L}_F$ is the mean squared error on those windows. The
+governance metrics $G$, $\Delta$, and $\gapclosed$ of
+Eqs.~\ref{eq:gap}--\ref{eq:kappa} are built from these. Every
+comparison is paired by trading day with Newey--West standard
+errors~\cite{newey1987hac}, forget-set metrics are means over ten
+seeds, and the audit separation $d'$ compares the two ten-seed
+populations.
+
+Hyperparameters were tuned once, on a split that predates every
+deletable year (2010--2014, validated on 2015, disjoint seeds),
+selecting on validation loss over a grid of width and dropout. A second search over learning rates and structural
+settings changed nothing. iTransformer and
+PatchTST remain below the HAR benchmark after that dedicated search,
+so their weak fit is a property of the architecture on this task, not
+of the tuning budget. A single oracle retrain costs 3--18 minutes on
+one NVIDIA A100, and the full campaign took about 600 A100-hours.
+Full configurations are in the released protocol.

@@ -1,0 +1,91 @@
+\section{Introduction}\label{sec:intro}
+
+Quantitative finance runs on licensed data: vendor feeds, index
+histories, alternative datasets. Licenses end. When one does, the
+data must stop being used, including \emph{inside trained models}.
+This is the problem machine unlearning addresses, and it arrives
+here with a contractual rather than privacy motivation. The field's central obstacle is that
+the ground truth of forgetting, retraining from scratch without the
+deleted data, is unaffordable at LLM scale. Approximate methods are
+therefore scored against
+proxies~\cite{nguyen2025survey}, and the field's
+verification tools are contested~\cite{zhang2024mia_cannot}.
+
+Financial forecasters invert the economics: they retrain in minutes.
+That affordability buys the study the field cannot run at scale. We
+answer every question about unlearning against \emph{exact retraining
+oracles}, 3{,}200 of them, on an S\&P~500 volatility-forecasting
+panel, with every comparison paired by trading day.
+
+One result reorganizes the rest. Deleting a clean, legitimate year of
+market data is not a cost. In the next bear market it is a gain, and
+the gain is largest for the models that memorized the year most. That
+cuts against the long-tail account of memorization, in which
+memorizing rare data is what buys generalization and removing it
+should cost accuracy~\cite{feldman2020memorization}. Nothing is
+wrong with the year we delete. What changes is the setting: a license
+expires, the model is judged on a later regime, and under that shift
+the value of a memorized era can invert. The unlearning literature
+could not have found this. Approximate unlearning shows utility
+falling, never rising. Seeing it rise takes the exact counterfactual,
+which at this scale we can afford. Three research questions organize
+the paper.
+
+\textbf{RQ1: What does deleting a licensed era mean, and what does
+exact deletion do?} \emph{Exact deletion is nearly inert in calm
+markets, and under stress its sign is a property of the architecture,
+not of the data.} First the question has to be made well-posed.
+``Delete year $E$'' is not, because overlapping windows, rolling
+features, and pipeline constants touch $E$ beyond its calendar
+bounds. We formalize a membership lattice of four increasingly
+strict readings and adopt the window-level reading as the
+paper-wide default. Measured against oracles, deletion moves a calm
+test year by almost nothing. In the next bear market the same
+deletion moves an order of magnitude more, and every deployable
+architecture gains from removing the crisis year. The two
+architectures below a standard volatility benchmark do not gain,
+and they are the two no one should deploy. Deletion exposure is
+therefore something to screen for, not a fixed cost to budget.
+Within a single training window, the effect follows the deleted
+era's position. The earliest years are inert, the years just before
+the test period cost skill, and deleting the crisis year helps.
+
+\textbf{RQ2: Can approximate unlearning substitute for retraining,
+and what is the right target?} \emph{The right target is the
+counterfactual, and the counterfactual still predicts the deleted
+era.} The only prior forecasting-specific
+method~\cite{wang2026tsunlearn} drives forgotten predictions toward
+noise. Yet the counterfactual, retrained without the crisis year,
+still predicts that year almost as well as the reference, because
+nearly all of that skill is generalization rather than memory.
+Approaching the noise target therefore surrenders live skill.
+Compliance means matching the counterfactual. On substitution the
+answer is no. In a single fold several deployable
+architecture-method pairs look adequate. Across all four folds,
+exactly one brackets the oracle, one more stays within half the
+gap, and the rest under-forget or overshoot.
+
+\textbf{RQ3: Can deletion be audited?} \emph{Only when the model
+memorized the era. Auditability is a property of what was learned, not
+of what was deleted.} An auditor calibrated against a population of
+retrainings separates crisis-era deletions easily, but across the
+full grid the separation falls to chance, and seventeen per cent of
+legitimate deletions leave a trace too faint to verify. A null
+audit is therefore not evidence of compliance. Window-level
+auditing stays near chance everywhere, and treating overlapping
+windows as i.i.d.\ overstates audit confidence. Audit granularity
+belongs in the data contract.
+
+\textbf{Contributions.} (i)~The sign result: exact deletion of a
+crisis era improves every deployable architecture in all four
+market regimes, and the sign is carried by the architecture, not by
+the data. (ii)~The instrument: 3{,}200 exact retraining oracles and
+the full oracle--method--audit matrix, released for reuse. (iii)~A
+membership lattice that makes ``delete year $E$'' well-posed under
+overlapping windows, with measurements of what each reading costs
+in data and in measured memory. (iv)~The target result: the
+counterfactual still predicts the deleted era, so compliance and
+privacy forgetting are different objectives, and pursuing the
+second surrenders the model. (v)~The audit result: audit strength
+tracks what the model memorized, not what was deleted, so
+legitimate deletions can be unverifiable at any granularity.

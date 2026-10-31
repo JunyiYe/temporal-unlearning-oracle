@@ -1,0 +1,19 @@
+\section{Practice}\label{sec:practice}
+
+``Licensee shall cease use of the Data'' under-specifies model
+obligations. A contract should name three things. The first is the
+membership level, because strictness changes both the surrendered
+data and the measured memory (Table~\ref{tab:levels}). The second is
+the comparison standard, which is equivalence to the retrained
+counterfactual (Eq.~\ref{eq:compliance}) and not inability to
+predict. The third is the audit granularity, which the era level can
+support and the single record cannot (Section~\ref{sec:rq3}).
+
+Three cautions complete the picture. Do not quantize after
+approximate unlearning. At LLM scale, quantization restores up to
+$83\%$ of what was unlearned, while exact retraining is
+immune~\cite{zhang2025quantfail}. Read over-forgetting as evidence
+of post-hoc treatment rather than thoroughness, because the
+retrained counterfactual never over-forgets. And a model with no
+alpha can still fail an audit, because memorization is a property of
+fitting, not of skill.
