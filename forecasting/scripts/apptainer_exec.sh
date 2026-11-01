@@ -4,10 +4,10 @@
 # anything, so batch jobs built on it survive SSH/login-session death.
 set -euo pipefail
 
-PROJECT_NAME="${PROJECT_NAME:-fin-ts-ptq}"
-PROJECT_HOME="${PROJECT_HOME:-$HOME/fin-ts-ptq}"
+PROJECT_NAME="${PROJECT_NAME:-temporal-unlearning-oracle}"
+PROJECT_HOME="${PROJECT_HOME:-$HOME/temporal-unlearning-oracle}"
 PROJECT_SCRATCH="${PROJECT_SCRATCH:-/scratch/$USER/$PROJECT_NAME}"
-CONTAINER_PATH="${CONTAINER_PATH:-/scratch/$USER/fin-ts-ptq/pytorch_sbx_cu121}"
+CONTAINER_PATH="${CONTAINER_PATH:-/scratch/$USER/temporal-unlearning-oracle/pytorch_sbx_cu121}"
 SIF="${SIF:-$PROJECT_SCRATCH/images/pytorch_2.4.0_cuda12.4.sif}"
 
 export PATH="$HOME/apptainer/bin:$PATH"
