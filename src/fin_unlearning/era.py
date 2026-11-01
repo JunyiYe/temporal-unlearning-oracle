@@ -1,4 +1,4 @@
-"""Era (calendar-year) forget units on top of fin-ts-ptq window datasets.
+"""Era (calendar-year) forget units on top of fin_ts_ptq window datasets.
 
 A licensed data era E is one calendar year inside the training period.
 Because samples are overlapping sliding windows, "delete era E" is ambiguous;

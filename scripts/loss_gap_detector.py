@@ -1,7 +1,7 @@
 """Per-window loss extraction for the verification chapter (Phase 2 seed).
 
 For every completed pilot cell, loads the cached checkpoints (reference
-from the fin-ts-ptq sweep, oracle + approximate methods from the pilot
+from the reference sweep, oracle + approximate methods from the pilot
 ckpt dir), recomputes per-window squared errors on the forget set and the
 size-matched retain control, and writes one NPZ per cell:
 

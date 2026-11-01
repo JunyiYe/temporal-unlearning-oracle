@@ -8,8 +8,8 @@
 #SBATCH -o outputs/slurm_logs/%x_%j.log
 
 # Per-day deletion effect for the mechanism figure. Runs from the
-# fin-ts-ptq repo root so config data paths and the sweep checkpoint dir
-# resolve; the fin-unlearning tree is bind-mounted into the container.
+# forecasting/ directory so config data paths and the sweep checkpoint dir
+# resolve; the repo tree is bind-mounted into the container.
 # Usage:
 #   sbatch -J dd_tr_L1 scripts/daily_delta.sbatch \
 #     --config configs/transformer_sp500_vol.yaml --mode strict

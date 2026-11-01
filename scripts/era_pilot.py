@@ -1,7 +1,7 @@
 """Era-unlearning pilot: exact-retraining oracle vs approximate methods.
 
 For each (fold, seed, era, mode) cell:
-  - reference  = the existing fin-ts-ptq sweep checkpoint (trained WITH era E),
+  - reference  = the existing reference sweep checkpoint (trained WITH era E),
   - oracle     = retrain from scratch on the retain set (exact unlearning),
   - finetune   = keep training the reference on retain only,
   - neggrad    = NegGrad+ plain ascent,
@@ -11,7 +11,7 @@ Metrics per model: test daily-IC (paired vs oracle and vs reference with
 NW-HAC), val/forget/retain-sample MSE (the loss-gap forgetting signal),
 prediction-space agreement with the oracle, wall-clock cost.
 
-Run inside the cluster container from the fin-ts-ptq repo root, e.g.
+Run inside the cluster container from the forecasting/ directory, e.g.
   sbatch -J unl_smoke scripts/pilot.sbatch \
       --config configs/transformer_sp500_vol.yaml \
       --folds 2024 --seeds 7 --eras 2020 --modes target,strict
@@ -81,13 +81,13 @@ def mse_of(model, loader, device) -> float:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Era-unlearning pilot.")
-    parser.add_argument("--config", required=True, help="fin-ts-ptq config (path relative to its repo root)")
+    parser.add_argument("--config", required=True, help="config yaml (path relative to forecasting/)")
     parser.add_argument("--folds", default="2024")
     parser.add_argument("--seeds", default="7")
     parser.add_argument("--eras", default="2020")
     parser.add_argument("--modes", default="target,strict")
     parser.add_argument("--methods", default="finetune,neggrad,neggrad_hinge")
-    parser.add_argument("--sweep-dir", default="outputs/sweep", help="reference checkpoints (fin-ts-ptq relative)")
+    parser.add_argument("--sweep-dir", default="outputs/sweep", help="reference checkpoints (relative to forecasting/)")
     parser.add_argument("--out-dir", default=str(UNLEARN_ROOT / "outputs" / "pilot"))
     parser.add_argument("--ckpt-dir", default=None,
                         help="Checkpoint cache dir (default <out-dir>/ckpt); point at the main pilot's to reuse oracles.")

@@ -7,9 +7,8 @@
 #SBATCH -x hawk-gpu1,hawk-gpu5,hawk-gpu6
 #SBATCH -o outputs/slurm_logs/%x_%j.log
 
-# fin-unlearning era pilot. Runs from the fin-ts-ptq repo root so config
-# data paths and the sweep checkpoint dir resolve; the fin-unlearning tree
-# is bind-mounted into the container and its src/ appended to PYTHONPATH
+# Era pilot. Runs from the forecasting/ directory so config data paths and
+# the sweep checkpoint dir resolve; the repo tree is bind-mounted into the container and its src/ appended to PYTHONPATH
 # (apptainer_exec.sh prepends /work/src and keeps existing PYTHONPATH).
 # Usage:
 #   sbatch -J unl_smoke scripts/pilot.sbatch --config configs/... [args]

@@ -42,13 +42,13 @@ UNLEARN_ROOT = (_REPO)
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--config", required=True, help="fin-ts-ptq config path")
+    ap.add_argument("--config", required=True, help="config yaml path (relative to forecasting/)")
     ap.add_argument("--folds", default="2022,2023,2024,2025")
     ap.add_argument("--era", default="2020")
     ap.add_argument("--mode", required=True, choices=["target", "strict"])
     ap.add_argument("--seeds", default="4,5,6,7,8,9,10,11,12,13")
     ap.add_argument("--sweep-dir", default=str(UNLEARN_ROOT / "outputs" / "sweep"),
-                    help="reference checkpoints, fin-ts-ptq relative")
+                    help="reference checkpoints")
     ap.add_argument("--ckpt-dir",
                     default=str(UNLEARN_ROOT / "outputs" / "pilot" / "ckpt"))
     ap.add_argument("--out-dir",
