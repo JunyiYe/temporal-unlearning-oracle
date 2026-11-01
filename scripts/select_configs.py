@@ -1,5 +1,5 @@
-"""P0 gate: aggregate the 24 tuning cells, select per-arch winners,
-emit the final configs, and write the gate readout.
+"""Aggregate the tuning cells, select per-arch winners,
+emit the final configs, and print a readout.
 
 Stdlib-only (reads small jsonl files, edits config text) — login-safe.
   python scripts/select_configs.py
@@ -15,12 +15,12 @@ from collections import defaultdict
 from pathlib import Path
 
 UNL = (_REPO)
-PTQ = (_REPO / "ptq_frozen")
+PTQ = (_REPO / "forecasting")
 ARCHS = ["transformer", "itransformer", "segrnn", "patchtst"]
 
 
 def main() -> None:
-    gate_lines = ["# P0 gate readout (tuning selection)", ""]
+    gate_lines = ["# Tuning selection readout", ""]
     ok = True
     (UNL / "configs").mkdir(parents=True, exist_ok=True)
 
@@ -71,7 +71,7 @@ def main() -> None:
         gate_lines.append(f"- emitted {out.name}")
         gate_lines.append("")
 
-    gate_lines.append("GATE P0: " + ("PASS" if ok else "HOLD (incomplete cells)"))
+    gate_lines.append("Tuning selection: " + ("PASS" if ok else "HOLD (incomplete cells)"))
     print("\n".join(gate_lines))
 
 

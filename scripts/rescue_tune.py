@@ -9,7 +9,7 @@ that actually bind for them: the learning rate, and the structural parameter
 each architecture is sensitive to (patch geometry for PatchTST, depth for
 iTransformer).
 
-Protocol-legal: identical era-clean tuning split to P0 (train 2010-2014,
+Protocol-legal: identical era-clean tuning split to the first round (train 2010-2014,
 validate 2015, seeds 1-3, yf2008 panel). No test year is touched.
 
     python scripts/rescue_tune.py --model patchtst
@@ -39,7 +39,7 @@ STRUCT = {
     "itransformer": (("n_layers",), [(2,), (3,), (4,)]),
     "transformer": (("n_layers",), [(2,), (3,)]),
     "segrnn": (("n_layers",), [(2,), (3,)]),
-    # tsmixer had no P0 tuning, so it gets the wider structural axis
+    # tsmixer had no first-round tuning, so it gets the wider structural axis
     "tsmixer": (("d_model", "n_layers", "dropout"),
                 [(64, 2, 0.1), (64, 2, 0.3), (128, 2, 0.1), (64, 3, 0.1)]),
     "timemixer": (("d_model", "n_layers", "dropout"),

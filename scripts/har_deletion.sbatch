@@ -7,7 +7,7 @@
 set -euo pipefail
 # Submit from the repository root: `sbatch scripts/<job>.sbatch ...`
 REPO="${SLURM_SUBMIT_DIR:-$PWD}"
-cd "$REPO/ptq_frozen"
-export PROJECT_HOME="$REPO/ptq_frozen"
+cd "$REPO/forecasting"
+export PROJECT_HOME="$REPO/forecasting"
 export APPTAINER_BINDPATH="$REPO"
 bash scripts/apptainer_exec.sh python $REPO/scripts/har_deletion.py "$@"

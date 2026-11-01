@@ -1,4 +1,4 @@
-"""Per-window loss extraction for the verification chapter (Phase 2 seed).
+"""Per-window loss extraction for the deletion audit.
 
 For every completed pilot cell, loads the cached checkpoints (reference
 from the reference sweep, oracle + approximate methods from the pilot
@@ -63,7 +63,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", required=True)
     ap.add_argument("--pilot-dir", default=str(UNLEARN_ROOT / "outputs" / "pilot"))
-    ap.add_argument("--sweep-dir", default="outputs/sweep")
+    ap.add_argument("--sweep-dir", default=str(UNLEARN_ROOT / "outputs" / "sweep"))
     ap.add_argument("--out-dir", default=str(UNLEARN_ROOT / "outputs" / "detector"))
     ap.add_argument("--batch-size", type=int, default=1024)
     ap.add_argument("--train-start-years", type=int, default=0)

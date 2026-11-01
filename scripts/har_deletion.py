@@ -28,7 +28,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, str(_REPO / "ptq_frozen" / "src"))
+sys.path.insert(0, str(_REPO / "forecasting" / "src"))
 from fin_ts_ptq.data.panel import PanelSpec, load_csv_panel          # noqa: E402
 from fin_ts_ptq.metrics.significance import daily_ic_frame, newey_west_mean_test  # noqa: E402
 

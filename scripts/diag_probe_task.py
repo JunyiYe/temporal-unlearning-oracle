@@ -17,7 +17,7 @@ from pathlib import Path as _P
 _REPO = _P(__file__).resolve().parents[1]
 import sys, torch
 from torch.utils.data import TensorDataset, DataLoader
-sys.path.insert(0, str(_REPO / "ptq_frozen" / "src"))
+sys.path.insert(0, str(_REPO / "forecasting" / "src"))
 from fin_ts_ptq.models.factory import build_model
 from fin_ts_ptq.config import load_config
 

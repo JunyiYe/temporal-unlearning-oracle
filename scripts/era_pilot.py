@@ -87,7 +87,7 @@ def main() -> None:
     parser.add_argument("--eras", default="2020")
     parser.add_argument("--modes", default="target,strict")
     parser.add_argument("--methods", default="finetune,neggrad,neggrad_hinge")
-    parser.add_argument("--sweep-dir", default="outputs/sweep", help="reference checkpoints (relative to forecasting/)")
+    parser.add_argument("--sweep-dir", default=str(UNLEARN_ROOT / "outputs" / "sweep"), help="reference checkpoints")
     parser.add_argument("--out-dir", default=str(UNLEARN_ROOT / "outputs" / "pilot"))
     parser.add_argument("--ckpt-dir", default=None,
                         help="Checkpoint cache dir (default <out-dir>/ckpt); point at the main pilot's to reuse oracles.")

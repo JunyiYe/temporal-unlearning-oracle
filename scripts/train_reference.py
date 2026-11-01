@@ -1,8 +1,8 @@
-"""P1: train reference models (fixed five-year windows).
+"""Train reference models (fixed five-year windows).
 
 One invocation trains references for (config, fold) over the given
 seeds, saves checkpoints in sweep naming, and records an inline
-test-IC health metric for the P1 gate.
+test-IC health metric.
 
   python scripts/train_reference.py --config <config yaml> --fold 2024 --seeds 4,5,6
 """

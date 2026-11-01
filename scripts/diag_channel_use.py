@@ -9,7 +9,7 @@ than below print precision.
 from pathlib import Path as _P
 _REPO = _P(__file__).resolve().parents[1]
 import sys, glob, torch
-sys.path.insert(0, str(_REPO / "ptq_frozen" / "src"))
+sys.path.insert(0, str(_REPO / "forecasting" / "src"))
 from fin_ts_ptq.models.factory import build_model
 from fin_ts_ptq.config import load_config
 
